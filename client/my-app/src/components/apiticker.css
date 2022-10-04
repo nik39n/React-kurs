@@ -1,0 +1,114 @@
+.main-dashboard{
+    display: flex;
+}
+.block-name {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    border: brown 1px solid;
+
+}
+.ticker-head{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction:row;
+    padding: 12px 0;
+
+}
+.ticker-icon{
+    border-radius: 50%;
+    flex: none;
+    overflow: hidden;
+    margin-right: 8px;
+    width: 24px;
+}
+.ticker-name{
+    color: #131722;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.company-name{
+    font-size: 12px;
+    margin-right: 2px;
+    overflow: hidden;
+    text-overflow: inherit;
+    word-break: break-word;
+}
+.company-name__link{
+    text-decoration: none;
+    color: #000;
+
+}
+.company-name__link:hover{
+    color: #1e53e5;
+}
+.dotwrap{
+    background-color: #9598a1;
+    border-radius: 50%;
+    height: 3px;
+    width: 3px;
+    margin: 0 6px;
+}
+.market-name{
+    font-size: 12px;
+    line-height: 17px;
+    color: #131722;
+}
+.sector-name{
+    padding: 2px 0;
+    font-size: 12px;
+    line-height: 17px;
+    color: #9598a1;
+}
+.ticker-description{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+}
+.description-main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 0;
+}
+
+.main-stat{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: brown 1px solid;
+
+}
+.price{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.live-price{
+    color: #131722;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 35px;
+}
+.price-currency{
+    color: #131722;
+    font-weight: 600;
+    height: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    justify-content: center;
+    line-height: 14px;
+    margin-left: 4px;
+}

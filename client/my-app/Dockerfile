@@ -1,6 +1,6 @@
 FROM node:16-alpine
 
-RUN npm install -g nodemon
+RUN npm install nodemon -g
 WORKDIR /app
 
 
@@ -8,7 +8,6 @@ COPY package*.json ./
 
 RUN npm install
 RUN npm install react-ajax --save
-RUN npm install axios
 RUN npm install react-use-websocket
 COPY . .
 
