@@ -6,21 +6,81 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 export class ApiTicker extends React.Component {
     state = {
-        items: []
-      };
+        items: [{
+            p:0,
+            c:0,
+            P:0,
+        }],
+        classNamePrice: 'changed-price__24h--neutral ',
+        classNameDifference: 'changed-price__24h--neutral ',
+        classNameDifferencePercantage: 'changed-price__24h--neutral ',
+
+    };
     client = new W3CWebSocket('wss://stream.binance.com:9443/ws/btcusdt@ticker');
 
     componentWillMount() {
 
         this.client.onopen = () => {
             console.log('WebSocket Client Connected');
+            this.setState({
+                className:" changed-price__24h--neutral",
+                classNameDifference:" changed-price__24h--neutral",
+                classNameDifferencePercantage: " changed-price__24h--neutral"
+
+            });
         };
 
         this.client.onmessage = (message) => {
-            // console.log(JSON.parse(message['data']).p);
+
+            let res = JSON.parse(message['data']);
             this.setState({
-                items: JSON.parse(message['data'])
-              });
+                items: res
+            })
+            if (Math.round(this.state.items.c)<Math.round(res.c)) {
+                this.setState({
+                    className:" changed-price__24h--plus"
+
+                });
+            } else if (Math.round(this.state.items.c)==Math.round(res.c)){
+                this.setState({
+                    className:" changed-price__24h--neutral"
+
+                });
+            }
+             else  {
+                this.setState({
+                    className:" changed-price__24h--minus"
+                });
+            };
+
+            if (this.state.items.p<0){
+                this.setState({
+                    classNameDifference:" changed-price__24h--minus"
+                });
+            }else if (this.state.items.p==0) {
+                this.setState({
+                    classNameDifference: " changed-price__24h--neutral"
+
+                });
+            } else if (this.state.items.p>0) {
+                this.setState({
+                    classNameDifference:" changed-price__24h--plus"
+                });
+            };
+
+            if (this.state.items.P<0) {
+                this.setState({
+                    classNameDifferencePercantage: " changed-price__24h--minus"
+                });
+            } else if (this.state.items.P==0) {
+                this.setState({
+                    classNameDifferencePercantage: " changed-price__24h--neutral"
+                });
+            } else if (this.state.items.P>0){
+                this.setState({
+                    classNameDifferencePercantage:" changed-price__24h--plus"
+                });
+            };
         };
     }
     render() {
@@ -47,30 +107,38 @@ export class ApiTicker extends React.Component {
 
                     <div className="main-stat">
                         <div className="price">
-                            <div className="live-price">
+                            <div className={"live-price "+this.state.className}>
                                 {Math.round(this.state.items.c)}
                             </div>
                             <div className="price-currency">USD</div>
-                            <div className="changed-price__24h">Изменение:{Math.round(this.state.items.p)}</div>
-                            <div className="changed-price__24h-percentage">
-                                Изменение за 24 часа: {Math.round(this.state.items.P)+"%"}
+                            <div className={"changed-price__24h "+this.state.classNameDifference}>
+                                {Math.round(this.state.items.p)}
+                            </div>
+                            <div className={"changed-price__24h-percentage "+this.state.classNameDifferencePercantage}>
+                                ({this.state.items.P +"%"})
                             </div>
                         </div>
                         <div className="work-time">
-                            Рынок открыт
+                            <div className="marker_market"></div>
+                            <div className="work-time-status">Рынок открыт</div>
+
                         </div>
                     </div>
 
                     <div className="key-stat">
-                        <div className="high-price">
-                            Самая высокая цена: {this.state.items.h}
+                        <div className="title_key-stat">Статистика</div>
+                        <div className="main_key-stat">
+                            <div className="high-price">
+                                Самая высокая цена: {Math.round(this.state.items.h)}
+                            </div>
+                            <div className="low-price">
+                                Самая низкая цена: {Math.round(this.state.items.l)}
+                            </div>
+                            <div className="volume">
+                                Объем торгов: {Math.round(this.state.items.v)}
+                            </div>
                         </div>
-                        <div className="low-price">
-                            Самая низкая цена: {this.state.items.l}
-                        </div>
-                        <div className="volume">
-                            Объем торгов: {this.state.items.v}
-                        </div>
+
                     </div>
                 </div>
 

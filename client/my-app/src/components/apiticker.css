@@ -1,12 +1,15 @@
 .main-dashboard{
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 30px;
 }
 .block-name {
     display: flex;
     align-items: flex-start;
     justify-content: center;
     flex-direction: column;
-    border: brown 1px solid;
+    margin-bottom: 12px;
 
 }
 .ticker-head{
@@ -79,19 +82,23 @@
     justify-content: center;
     padding: 2px 0;
 }
-
+.block-main{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
 .main-stat{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
-    border: brown 1px solid;
+    margin-bottom: 12px;
 
 }
 .price{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: baseline;
 
 }
 .live-price{
@@ -111,4 +118,72 @@
     justify-content: center;
     line-height: 14px;
     margin-left: 4px;
+    margin-right: 8px;
+}
+.changed-price__24h{
+    color: #000;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    unicode-bidi: bidi-override;
+}
+.changed-price__24h-percentage {
+    color: #000;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    unicode-bidi: bidi-override;
+
+}
+.changed-price__24h--plus{
+    color: #22ab94;
+}
+.changed-price__24h--minus{
+    color: #f23645;
+}
+.changed-price__24h--neutral{
+    color: #000000;
+}
+.work-time{
+    display: flex;
+    align-items: center;
+}
+.marker_market{
+    border-radius: 3px;
+    height: 6px;
+    margin-right: 4px;
+    width: 6px;
+    background-color: #089981;
+}
+.work-time-status{
+    color: #089981;
+    font-size: 11px;
+    line-height: 13px;
+    margin-right: 8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.title_key-stat{
+    color: #131722;
+    display: flex;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 17px;
+    margin-bottom: 8px;
+    justify-content: flex-start;
+
+
+}
+.main_key-stat{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+.high-price,.low-price,.volume{
+    color: #787b86;
+    font-size: 11px;
+    letter-spacing: .4px;
+    line-height: 16px;
+    text-transform: uppercase;
 }
