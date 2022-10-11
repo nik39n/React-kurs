@@ -3,7 +3,6 @@ import './apiticker.css';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 
-
 export class ApiTicker extends React.Component {
     state = {
         items: [{
@@ -19,6 +18,7 @@ export class ApiTicker extends React.Component {
     client = new W3CWebSocket('wss://stream.binance.com:9443/ws/btcusdt@ticker');
 
     componentWillMount() {
+        let arr = [];
 
         this.client.onopen = () => {
             console.log('WebSocket Client Connected');
@@ -31,8 +31,9 @@ export class ApiTicker extends React.Component {
         };
 
         this.client.onmessage = (message) => {
-
             let res = JSON.parse(message['data']);
+            arr.push(res.c);
+            this.props.parentCallback(arr);
             this.setState({
                 items: res
             })
@@ -141,22 +142,11 @@ export class ApiTicker extends React.Component {
 
                     </div>
                 </div>
-
-                {/*<div>Цена:{this.state.items.p}</div>*/}
-                {/*<div>Название: {this.state.items.s}</div>*/}
-                {/*<div>*/}
-                {/*    <div>Статистика</div>*/}
-                {/*    <div>Изменение за 24 часа: {Math.round(this.state.items.P)+"%"}</div>*/}
-                {/*    <div>Самая высокая цена: {this.state.items.h}</div>*/}
-                {/*    <div>Самая низкая цена: {this.state.items.l}</div>*/}
-                {/*    <div>Объем торгов: {this.state.items.v}</div>*/}
-                {/*</div>*/}
             </div>
 
         );
     }
 }
 
-export default ApiTicker;
 
 
