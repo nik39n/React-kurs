@@ -1,4 +1,4 @@
-import './mainchart.css';
+import '../style/mainchart.css';
 import React from 'react';
 import {
     Chart as ChartJS,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './apiticker.css';
+import '../style/apiticker.css';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 
@@ -94,7 +94,7 @@ export class ApiTicker extends React.Component {
                     </div>
                     <div className="ticker-description">
                         <div className="description-main">
-                            <a href="https://bitcoin.org/uk/" className="company-name__link"><div className="company-name">Bitcoin / TetherUS</div></a>
+                            <a href="client/my-app/src/components/modules/apiticker" className="company-name__link"><div className="company-name">Bitcoin / TetherUS</div></a>
                             <div className="dotwrap"></div>
                             <div className="market-name">BINANCE</div>
                         </div>

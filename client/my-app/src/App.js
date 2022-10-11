@@ -1,7 +1,7 @@
 import './App.css';
-import MainChart from './components/mainchart';
+import MainChart from './components/modules/mainchart';
 import {MainDashboard} from "./components/maindashboard";
-import {ApiTicker} from "./components/apiticker";
+import {ApiTicker} from "./components/modules/apiticker";
 import React from "react";
 
 // function updateData(value) {

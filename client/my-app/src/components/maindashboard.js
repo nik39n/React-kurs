@@ -1,6 +1,6 @@
-import './maindashboard.css';
-import  { ApiTicker } from './apiticker';
-import MainChart from "./mainchart";
+import './style/maindashboard.css';
+import  { ApiTicker } from './modules/apiticker';
+import MainChart from "./modules/mainchart";
 import React from 'react';
 
 export class MainDashboard extends React.Component{
