@@ -1,0 +1,64 @@
+.performance_block{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+.performance{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 300px;
+    height: 130px;
+    align-items: center;
+    justify-content: space-between;
+}
+.performance_card{
+    padding:5px 15px;
+    flex-basis: 20%;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0px;
+
+}
+.performance_pricachange{
+    margin: 0;
+}
+.performance_title{
+    color: #131722;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 17px;
+    margin-bottom: 8px;
+}
+.p_interval{
+    color: #9598a1;
+    font-size: 11px;
+    letter-spacing: .4px;
+    line-height: 16px;
+    text-transform: uppercase;
+    margin: 0px;
+}
+.one-year{
+    
+}
+.ytd{
+    
+}
+.six-month{
+    
+}
+.three-month{
+    
+}
+.one-month{
+    
+}
+.one-week{
+    
+}
+.minus{
+    background: #faa1a433;
+}
+.plus{
+    background: #70ccbd33;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../style/apiticker.css';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import axios from "axios";
 
 
 export class ApiTicker extends React.Component {
@@ -20,20 +21,23 @@ export class ApiTicker extends React.Component {
     componentWillMount() {
         let arr = [];
 
-        this.client.onopen = () => {
-            console.log('WebSocket Client Connected');
-            this.setState({
-                className:" changed-price__24h--neutral",
-                classNameDifference:" changed-price__24h--neutral",
-                classNameDifferencePercantage: " changed-price__24h--neutral"
 
-            });
+        this.client.onopen = () => {
+        console.log('WebSocket Client Connected');
+
+
+        this.setState({
+            className:" changed-price__24h--neutral",
+            classNameDifference:" changed-price__24h--neutral",
+            classNameDifferencePercantage: " changed-price__24h--neutral"
+
+        });
         };
 
         this.client.onmessage = (message) => {
             let res = JSON.parse(message['data']);
             arr.push(res.c);
-            this.props.parentCallback(arr);
+            // this.props.parentCallback(arr);
             this.setState({
                 items: res
             })
@@ -109,14 +113,14 @@ export class ApiTicker extends React.Component {
                     <div className="main-stat">
                         <div className="price">
                             <div className={"live-price "+this.state.className}>
-                                {Math.round(this.state.items.c)}
+                                {Math.round(this.state.items.c) ? Math.floor(this.state.items.c * 100) / 100: 0 }
                             </div>
                             <div className="price-currency">USD</div>
                             <div className={"changed-price__24h "+this.state.classNameDifference}>
-                                {Math.round(this.state.items.p)}
+                                {Math.round(this.state.items.p) ? Math.floor(this.state.items.p * 100) / 100: 0}
                             </div>
                             <div className={"changed-price__24h-percentage "+this.state.classNameDifferencePercantage}>
-                                ({this.state.items.P +"%"})
+                                ({(this.state.items.P ? Math.floor(this.state.items.P * 100) / 100 :0)  +"%"})
                             </div>
                         </div>
                         <div className="work-time">
@@ -130,13 +134,13 @@ export class ApiTicker extends React.Component {
                         <div className="title_key-stat">Статистика</div>
                         <div className="main_key-stat">
                             <div className="high-price">
-                                Самая высокая цена: {Math.round(this.state.items.h)}
+                                Самая высокая цена: {(this.state.items.h ? Math.floor(this.state.items.h * 100) / 100 :0)}
                             </div>
                             <div className="low-price">
-                                Самая низкая цена: {Math.round(this.state.items.l)}
+                                Самая низкая цена: {(this.state.items.l ? Math.floor(this.state.items.l * 100) / 100 :0)}
                             </div>
                             <div className="volume">
-                                Объем торгов: {Math.round(this.state.items.v)}
+                                Объем торгов: {(this.state.items.v ? Math.floor(this.state.items.v * 100) / 100 :0)}
                             </div>
                         </div>
 
