@@ -23,6 +23,8 @@ function Performance(){
         const fetchData = async () => {
             let {data} = await axios.get(`https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=${Date.now() - 31556926000}&limit=1000`);
             let data2 = await axios.get(`https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=${1640995201000}&limit=1`);
+            let data3 = await axios.get(`http://localhost:8080/`);
+            console.log(data3);
             setPriceYear(data[0][1]);
             setPriceHalfYear(data[data.length-183][4]);
             setPriceThreeMonth(data[data.length-92][4]);
