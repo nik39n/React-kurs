@@ -19,12 +19,15 @@ function Performance(){
     const [priceOneWeekPerformance, setPriceOneWeekPerformance] = useState();
     const [priceYTDPerformance , setPriceYTDPerformance] = useState();
 
+    const [dbdata, setDbdata] = useState();
+
     useEffect(()=>{
         const fetchData = async () => {
-            let {data} = await axios.get(`https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=${Date.now() - 31556926000}&limit=1000`);
+            let data3 = await axios.get(`http://localhost:8080/test`);
+            console.log(data3.data);
             let data2 = await axios.get(`https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=${1640995201000}&limit=1`);
-            let data3 = await axios.get(`http://localhost:8080/`);
-            console.log(data3);
+            let {data} = await axios.get(`https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=${Date.now() - 31556926000}&limit=1000`);
+            setDbdata(data3.data);
             setPriceYear(data[0][1]);
             setPriceHalfYear(data[data.length-183][4]);
             setPriceThreeMonth(data[data.length-92][4]);
@@ -51,6 +54,7 @@ function Performance(){
 
     return(
       <div className="performance_block">
+          <h1>{dbdata ? dbdata : 0}</h1>
           <p className="performance_title">Performance</p>
           <div className="performance">
               <div className={`performance_card one-week ${priceOneWeekPerformance>0 ? " plus" : " minus"}`}>
