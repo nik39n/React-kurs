@@ -1,38 +1,51 @@
 version: "1"
 services:
-  web:
-    stdin_open: true
-    tty: true
-    build: client/my-app
-    volumes:
-      - './client/my-app:/app'
-      - '/app/node_modules'
-      - './client/my-app/package.json:/app/package.json'
+#  web:
+#    stdin_open: true
+#    tty: true
+#    build: client/my-app
+#    volumes:
+#      - './client/my-app:/app'
+#      - '/app/node_modules'
+#      - './client/my-app/package.json:/app/package.json'
+#    ports:
+#      - '3000:3000'
+#    environment:
+#      - REACT_APP_NAME=my-app
+#      - CHOKIDAR_USEPOLLING=true
+  nginx:
+    image: 'nginx:latest'
     ports:
-      - '3000:3000'
-    environment:
-      - REACT_APP_NAME=my-app
-      - CHOKIDAR_USEPOLLING=true
+      - 80:80
+    container_name: nginx
+    volumes:
+      - './src:/var/www'
+      - './nginx/conf.d:/etc/nginx/conf.d'
+    networks:
+      - laravel_default
   db:
     image: mysql:8
     container_name: db
+    tty: true
     ports:
-      - '3308:3306'
+      - '3306:3306'
     volumes:
       - ./db:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
     networks:
       - laravel_default
   php:
     build:
-      dockerfile: php/Dockerfile
+      dockerfile: ./php/Dockerfile
     container_name: php
     volumes:
-      - ./src:/var/www/laravel_docker
-      - ./src/apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
-    ports:
-      - 8080:80
+      - ./src:/var/www
+    networks:
+      - laravel_default
+
 networks:
   laravel_default:
       driver: bridge
