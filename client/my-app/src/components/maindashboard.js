@@ -1,27 +1,28 @@
 import './style/maindashboard.css';
 import  { ApiTicker } from './modules/apiticker';
+import {useParams} from 'react-router-dom';
 import MainChart from "./modules/mainchart";
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Performance from "./modules/performance";
+import axios from "axios";
 
-export class MainDashboard extends React.Component{
-
-    render() {
-        return(
-            <div className="main-content">
-                <div className="chart">
-                    <MainChart></MainChart>
-                </div>
-
-                <div className="ticker">
-                    <ApiTicker parentCallback = {this.handleCallback}></ApiTicker>
-                    <Performance></Performance>
-                </div>
-
+function MainDashboard () {
+    const params = useParams();
+    return(
+        <div className="main-content">
+            <div className="chart">
+                <MainChart name={params.tickerName}></MainChart>
             </div>
-        );
-    }
+
+            <div className="ticker">
+                <ApiTicker name={params.tickerName}></ApiTicker>
+                <Performance name={params.tickerName}></Performance>
+            </div>
+        </div>
+    );
 }
+export default MainDashboard;
+
 
 
 

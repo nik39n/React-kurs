@@ -25,13 +25,13 @@ ChartJS.register(
 );
 
 
-function MainChart() {
+function MainChart(props) {
     let weekInSeconds = 605201819;
     let halfYearInSeconds = 15778476000;
     let yearInSeconds = 31556952000;
     let monthInSeconds = 2629743000;
 
-        let dayInterval = '1d';
+    let dayInterval = '1d';
     let eightHoursInterval = '8h';
     let oneWeekInterval = '1w';
     let threeDaysInterval = '3d';
@@ -71,12 +71,12 @@ function MainChart() {
     const [intervalParam, setIntervalParam] = useState(eightHoursInterval)
     useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios.get(`https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=${intervalParam}&startTime=${Date.now() - paramSeconds}&limit=500`)
+            const { data } = await axios.get(`https://api.binance.com/api/v3/klines?symbol=${props.name}&interval=${intervalParam}&startTime=${Date.now() - paramSeconds}&limit=500`)
             setChartData({
                 labels: data.map((item)=>(`${new Date(item[0]).getDate()}/${new Date(item[0]).getMonth() + 1}` )),
                 datasets: [
                     {
-                        label:"BTC",
+                        label: props.name,
                         data: data.map(item=>item[4]),
                         fill:true,
                         borderColor:"rgb(255,99,132)",

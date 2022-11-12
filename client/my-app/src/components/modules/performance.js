@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import "../style/performance.css";
 
 
-function Performance(){
+function Performance(props){
     const [priceYear, setPriceYear] = useState();
     const [priceHalfYear,setPriceHalfYear] = useState();
     const [priceThreeMonth, setPriceThreeMonth] = useState();
@@ -19,14 +19,11 @@ function Performance(){
     const [priceOneWeekPerformance, setPriceOneWeekPerformance] = useState();
     const [priceYTDPerformance , setPriceYTDPerformance] = useState();
 
-    const [dbdata, setDbdata] = useState();
 
     useEffect(()=>{
         const fetchData = async () => {
-            let data3 = await axios.get(`http://localhost/test`);
-            let data2 = await axios.get(`https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=${1640995201000}&limit=1`);
-            let {data} = await axios.get(`https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=${Date.now() - 31556926000}&limit=1000`);
-            setDbdata(data3.data.map((item)=>(`  ${item['name']}`)));
+            let data2 = await axios.get(`https://api.binance.com/api/v3/klines?symbol=${props.name}&interval=1d&startTime=${1640995201000}&limit=1`);
+            let {data} = await axios.get(`https://api.binance.com/api/v3/klines?symbol=${props.name}&interval=1d&startTime=${Date.now() - 31556926000}&limit=1000`);
             setPriceYear(data[0][1]);
             setPriceHalfYear(data[data.length-183][4]);
             setPriceThreeMonth(data[data.length-92][4]);
@@ -78,10 +75,8 @@ function Performance(){
               <div className={`performance_card one-year ${priceYearPerformance>0 ? " plus" : " minus"}`}>
                   <p className="performance_pricachange">{priceYearPerformance ? priceYearPerformance : 0}%</p>
                   <p className="p_interval">1Y</p>
-
               </div>
           </div>
-          <p> {dbdata ? dbdata : 0}</p>
       </div>
     );
 }

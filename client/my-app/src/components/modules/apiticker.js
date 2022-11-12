@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {useParams} from 'react-router-dom';
 import '../style/apiticker.css';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import axios from "axios";
@@ -16,7 +17,7 @@ export class ApiTicker extends React.Component {
         classNameDifferencePercantage: 'changed-price__24h--neutral ',
 
     };
-    client = new W3CWebSocket('wss://stream.binance.com:9443/ws/btcusdt@ticker');
+    client = new W3CWebSocket(`wss://stream.binance.com:9443/ws/${this.props.name.toLowerCase()}@ticker`);
 
     componentWillMount() {
         let arr = [];
@@ -112,7 +113,7 @@ export class ApiTicker extends React.Component {
 
                     <div className="main-stat">
                         <div className="price">
-                            <div className={"live-price "+this.state.className}>
+                            <div className={"live-price " + this.state.className}>
                                 {Math.round(this.state.items.c) ? Math.floor(this.state.items.c * 100) / 100: 0 }
                             </div>
                             <div className="price-currency">USD</div>
