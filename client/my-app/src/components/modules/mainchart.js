@@ -1,4 +1,4 @@
-import '../style/mainchart.css';
+import '../style/modules/mainchart.css';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
@@ -105,12 +105,14 @@ function MainChart(props) {
             </div>
             <div className="chart_buttons">
                 <div className="time_buttons">
+                    <p>Period:</p>
                     <button onClick={handleClickYear}>1Y</button>
                     <button onClick={handleClickHalfYear}>6M</button>
                     <button onClick={handleClickMonth}>1M</button>
                     <button onClick={handleClickWeek}>1W</button>
                 </div>
                 <div className="interval_buttons">
+                    <p>Interval:</p>
                     <button onClick={handleClickOneWeekInterval}>1w</button>
                     <button onClick={handleClickThreeDaysInterval}>3d</button>
                     <button onClick={handleClickDayInterval}>1d</button>

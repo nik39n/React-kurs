@@ -1,0 +1,46 @@
+.container{
+    width: 1200px;
+    margin: auto;
+}
+.section_above_list{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.name_of_market{
+
+}
+.search{
+
+}
+
+.filters{
+    display: flex;
+    justify-content: flex-start;
+    margin: 10px;
+    justify-content: space-around;
+
+}
+.list_of_actives{
+    display: flex;
+    flex-direction: column;
+
+}
+.list_item{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+}
+.list_item_link{
+    padding: 10px;
+}
+.cart{
+    display: flex;
+
+}
+.list_cart{
+    padding: 10px;
+}
+.list_favourite{
+    padding: 10px;
+}

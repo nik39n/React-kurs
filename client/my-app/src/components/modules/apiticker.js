@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {useParams} from 'react-router-dom';
-import '../style/apiticker.css';
+import '../style/modules/apiticker.css';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import axios from "axios";
 
