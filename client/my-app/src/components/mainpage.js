@@ -7,6 +7,7 @@ import {Link, useParams} from "react-router-dom";
 import Cryptolist from "./modules/cryptolist";
 import Stockslist from "./modules/stockslist";
 import {Line} from "react-chartjs-2";
+import { useCookies } from 'react-cookie';
 import CryptoList from "./modules/cryptolist";
 import StocksList from "./modules/stockslist";
 
