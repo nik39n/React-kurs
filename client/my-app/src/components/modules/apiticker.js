@@ -15,13 +15,26 @@ export class ApiTicker extends React.Component {
         classNamePrice: 'changed-price__24h--neutral ',
         classNameDifference: 'changed-price__24h--neutral ',
         classNameDifferencePercantage: 'changed-price__24h--neutral ',
-
+        info:[],
     };
     client = new W3CWebSocket(`wss://stream.binance.com:9443/ws/${this.props.name.toLowerCase()}@ticker`);
 
     componentWillMount() {
         let arr = [];
 
+        const fetchData = async ()=>{
+            let dbinfo = await axios.get(`http://localhost/crypto`);
+            if (dbinfo != undefined){
+                dbinfo.data.forEach((elem)=>{
+                    if ((elem.name).toLowerCase() == (this.props.name).toLowerCase()){
+                        this.setState({
+                            info:elem,
+                        })
+                    }
+                });
+            }
+        }
+        fetchData();
 
         this.client.onopen = () => {
         console.log('WebSocket Client Connected');
@@ -92,14 +105,15 @@ export class ApiTicker extends React.Component {
     render() {
         return (
             <div className="main-dashboard">
+                {/*{this.state.info.name ? this.state.info.name : <h1>load</h1> }*/}
                 <div className="block-name">
                     <div className="ticker-head">
-                        <img src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBTC.svg" alt="" className="ticker-icon"/>
+                        <img src={this.state.info.img ? this.state.info.img : <span>load</span> } alt="" className="ticker-icon"/>
                         <div className="ticker-name">{this.state.items.s}</div>
                     </div>
                     <div className="ticker-description">
                         <div className="description-main">
-                            <a href="client/my-app/src/components/modules/apiticker" className="company-name__link"><div className="company-name">Bitcoin / TetherUS</div></a>
+                            <a href="client/my-app/src/components/modules/apiticker" className="company-name__link"><div className="company-name">{this.state.info.full_name ? this.state.info.full_name : <span>load</span> } / TetherUS</div></a>
                             <div className="dotwrap"></div>
                             <div className="market-name">BINANCE</div>
                         </div>
@@ -114,11 +128,11 @@ export class ApiTicker extends React.Component {
                     <div className="main-stat">
                         <div className="price">
                             <div className={"live-price " + this.state.className}>
-                                {Math.round(this.state.items.c) ? Math.floor(this.state.items.c * 100) / 100: 0 }
+                                {this.state.items.c ? Math.floor(this.state.items.c * 1000000) / 1000000 : 0 }
                             </div>
                             <div className="price-currency">USD</div>
                             <div className={"changed-price__24h "+this.state.classNameDifference}>
-                                {Math.round(this.state.items.p) ? Math.floor(this.state.items.p * 100) / 100: 0}
+                                {this.state.items.p ? Math.floor(this.state.items.p * 100) / 100: 0}
                             </div>
                             <div className={"changed-price__24h-percentage "+this.state.classNameDifferencePercantage}>
                                 ({(this.state.items.P ? Math.floor(this.state.items.P * 100) / 100 :0)  +"%"})
@@ -135,20 +149,19 @@ export class ApiTicker extends React.Component {
                         <div className="title_key-stat">Статистика</div>
                         <div className="main_key-stat">
                             <div className="high-price">
-                                Самая высокая цена: {(this.state.items.h ? Math.floor(this.state.items.h * 100) / 100 :0)}
+                                Самая высокая цена: {(this.state.items.h ? Math.floor(this.state.items.h) :0)}
                             </div>
                             <div className="low-price">
-                                Самая низкая цена: {(this.state.items.l ? Math.floor(this.state.items.l * 100) / 100 :0)}
+                                Самая низкая цена: {(this.state.items.l ? Math.floor(this.state.items.l) :0)}
                             </div>
                             <div className="volume">
-                                Объем торгов: {(this.state.items.v ? Math.floor(this.state.items.v * 100) / 100 :0)}
+                                Объем торгов: {(this.state.items.v ? Math.floor(this.state.items.v) :0)}
                             </div>
                         </div>
 
                     </div>
                 </div>
             </div>
-
         );
     }
 }

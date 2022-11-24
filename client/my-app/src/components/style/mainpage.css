@@ -13,6 +13,10 @@
 .search{
 
 }
+.search_input{
+    font-size: 14px;
+    padding: 5px 15px;
+}
 
 .filters{
     display: flex;

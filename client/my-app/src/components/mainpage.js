@@ -13,6 +13,33 @@ import StocksList from "./modules/stockslist";
 
 function MainPage () {
  const params = useParams();
+ const [searchInput, setSearchInput] = useState("");
+ const [childData , setChildData] = useState('');
+ const [dataToList, setDataToList] = useState();
+ const childToParent = (childData) => {
+    setChildData(childData);
+ }
+ const handleChange = (e) => {
+    setSearchInput(e.target.value);
+     let arr = [];
+     childData.forEach((element)=>{
+         let ticker = Object.keys(element);
+         let name = Object.values(element);
+         if (ticker[0].toLowerCase().match((e.target.value).toLowerCase()) || name[0].toLowerCase().match((e.target.value).toLowerCase())){
+             arr.push(element);
+         }
+     });
+     // childData.filter((country) => {
+     //     if(country.match(e.target.value)!= null){
+     //         arr.push(country.match(e.target.value));
+     //
+     //     };
+     // });
+     setDataToList(arr);
+ };
+
+
+
     return(
         <div className="main">
             <Header></Header>
@@ -22,7 +49,7 @@ function MainPage () {
                         <h1>{params.typeActives.toUpperCase()}</h1>
                     </div>
                     <div className="search">
-                        <input type="text" placeholder="Search"/>
+                        <input type="text" placeholder="Search" onChange={handleChange} value={searchInput} className="search_input"/>
                     </div>
                 </div>
                 <div className="list_of_actives">
@@ -33,7 +60,7 @@ function MainPage () {
                         <div className="filter_item">date</div>
                     </div>
                     {
-                        params.typeActives == "crypto" ? <Cryptolist></Cryptolist> : <StocksList></StocksList>
+                        params.typeActives == "crypto" ? <Cryptolist parentToChild={dataToList} childToParent={childToParent}></Cryptolist> : <StocksList></StocksList>
                     }
                 </div>
             </div>

@@ -1,0 +1,30 @@
+.list_item_link_favourite{
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 24px;
+    margin-left: 16px;
+    font-weight: 500;
+    color: #1E2329;
+    margin-bottom: 2px;
+}
+.container{
+    margin-top: 30px;
+}
+.item_wrapper{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.button_favourite{
+    background-color: #fff;
+    border: 1px solid #969696;
+    font-size: 16px;
+    border-radius: 5px;
+
+}
+.button_favourite:hover{
+    transition: 0.1s;
+    background-color: #f3f3f3;
+    cursor: pointer;
+}
