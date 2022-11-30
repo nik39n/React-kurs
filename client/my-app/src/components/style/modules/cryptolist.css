@@ -44,6 +44,9 @@
     all: unset;
     text-decoration: none;
     flex: 0.6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .cart{
     display: flex;
@@ -82,4 +85,32 @@
     font-weight: 500;
     color: #1E2329;
     margin-bottom: 2px;
+}
+.ticker_stream{
+    flex: 0.5;
+    display: flex;
+    justify-content: flex-start;
+    color: #1E2329;
+    color: #1E2329;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    font-weight: 400;
+}
+.ticker_stream_change{
+    display: flex;
+    justify-content: flex-start;
+    flex: 0.25;
+    font-size: 16px;
+    line-height: 24px;
+    text-overflow: ellipsis;
+    font-weight: 500;
+}
+.ticker_stream_volume{
+    display: flex;
+    justify-content: center;
+    flex: 0.25;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    line-height: 24px;
+    color: #1E2329;
 }

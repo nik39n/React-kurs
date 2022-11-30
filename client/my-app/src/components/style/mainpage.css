@@ -21,7 +21,8 @@
 .filters{
     display: flex;
     justify-content: flex-start;
-    margin: 10px;
+    margin: 10px 0;
+    padding: 20px;
     justify-content: space-around;
 
 }
@@ -47,4 +48,41 @@
 }
 .list_favourite{
     padding: 10px;
+}
+.filter_item_name{
+    display: flex;
+    justify-content: flex-start;
+    flex: 0.3;
+    font-size: 14px;
+    color: #1E2329;
+}
+.filter_item_price{
+    display: flex;
+    justify-content: flex-start;
+    flex: 0.5;
+    font-size: 14px;
+    color: #1E2329;
+
+}
+.filter_item_change{
+    display: flex;
+    justify-content: flex-start;
+    flex: 0.25;
+    font-size: 14px;
+    color: #1E2329;
+
+}
+.filter_item_trades{
+    display: flex;
+    justify-content: center;
+    flex: 0.25;
+    font-size: 14px;
+    color: #1E2329;
+}
+.plug{
+    flex: 0.1;
+}
+.filter_wrapper{
+    flex: 0.6;
+    display: flex;
 }

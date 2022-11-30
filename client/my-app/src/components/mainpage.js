@@ -14,6 +14,10 @@ import StocksList from "./modules/stockslist";
 function MainPage () {
  const params = useParams();
  const [searchInput, setSearchInput] = useState("");
+ const [priceFilter, setPriceFilter] = useState();
+ const [nameFilter, setNameFilter] = useState();
+ const [changeFilter, setChangeFilter] = useState();
+ const [tradesFilter, setTradesFilter] = useState();
  const [childData , setChildData] = useState('');
  const [dataToList, setDataToList] = useState();
  const childToParent = (childData) => {
@@ -37,6 +41,54 @@ function MainPage () {
      // });
      setDataToList(arr);
  };
+     const handelName = (e) => {
+         if (nameFilter == undefined){
+             setNameFilter(true);
+             console.log("uderfinedtrue",nameFilter);
+
+         } else if(nameFilter == true){
+             setNameFilter(false);
+             console.log("2",nameFilter);
+
+         } else if (nameFilter == false) {
+             setNameFilter(true);
+             console.log("3",nameFilter);
+
+         }
+     }
+    const handelPrice = (e) => {
+        if (priceFilter == undefined){
+            setPriceFilter(true);
+            console.log(priceFilter);
+
+        } else if(priceFilter == true){
+            setPriceFilter(false);
+        } else {
+            setPriceFilter(true);
+        }
+    }
+    const handelChange = (e) => {
+        if (changeFilter == undefined){
+            setChangeFilter(true);
+            console.log(priceFilter);
+
+        } else if(changeFilter == true){
+            setChangeFilter(false);
+        } else {
+            setChangeFilter(true);
+        }
+    }
+    const handelTrades = (e) => {
+        if (tradesFilter == undefined){
+            setTradesFilter(true);
+            console.log(priceFilter);
+
+        } else if(tradesFilter == true){
+            setTradesFilter(false);
+        } else {
+            setTradesFilter(true);
+        }
+    }
 
 
 
@@ -54,13 +106,19 @@ function MainPage () {
                 </div>
                 <div className="list_of_actives">
                     <div className="filters">
-                        <div className="filter_item">name</div>
-                        <div className="filter_item">value</div>
-                        <div className="filter_item">price</div>
-                        <div className="filter_item">date</div>
+                        <div onClick={handelName} className="filter_item filter_item_name">Name</div>
+                        <div className="filter_wrapper">
+                            <div onClick={handelPrice} className="filter_item filter_item_price">Price</div>
+                            <div onClick={handelChange} className="filter_item filter_item_change">24h</div>
+                            <div onClick={handelTrades} className="filter_item filter_item_trades">Trades</div>
+                        </div>
+                        <div className="plug">
+
+                        </div>
+
                     </div>
                     {
-                        params.typeActives == "crypto" ? <Cryptolist parentToChild={dataToList} childToParent={childToParent}></Cryptolist> : <StocksList></StocksList>
+                        params.typeActives == "crypto" ? <Cryptolist parentToChildInput={dataToList} parentToChildFilterName={nameFilter} parentToChildFilterPrice={priceFilter} parentToChildFilterChange={changeFilter} parentToChildFilterTrades={tradesFilter}  childToParent={childToParent}></Cryptolist> : <StocksList></StocksList>
                     }
                 </div>
             </div>
