@@ -44,7 +44,7 @@ function MainPage () {
      const handelName = (e) => {
          if (nameFilter == undefined){
              setNameFilter(true);
-             console.log("uderfinedtrue",nameFilter);
+             console.log("1",nameFilter);
 
          } else if(nameFilter == true){
              setNameFilter(false);
@@ -59,18 +59,21 @@ function MainPage () {
     const handelPrice = (e) => {
         if (priceFilter == undefined){
             setPriceFilter(true);
-            console.log(priceFilter);
+            console.log("1",priceFilter);
 
         } else if(priceFilter == true){
             setPriceFilter(false);
+            console.log("2",priceFilter);
+
         } else {
             setPriceFilter(true);
+            console.log("3",priceFilter);
         }
     }
     const handelChange = (e) => {
         if (changeFilter == undefined){
             setChangeFilter(true);
-            console.log(priceFilter);
+            console.log(changeFilter);
 
         } else if(changeFilter == true){
             setChangeFilter(false);
@@ -81,7 +84,7 @@ function MainPage () {
     const handelTrades = (e) => {
         if (tradesFilter == undefined){
             setTradesFilter(true);
-            console.log(priceFilter);
+            console.log(tradesFilter);
 
         } else if(tradesFilter == true){
             setTradesFilter(false);

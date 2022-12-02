@@ -7,12 +7,20 @@ import axios from "axios";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,parentToChildFilterPrice,parentToChildFilterChange,parentToChildFilterTrades}){
-    const [dbdata, setDbdata] = useState();
+    const [dbDataForSearch, setDbDataForSearch] = useState();
+    const [titlesForStream, setTitlesForStream] = useState();
+    const [dataFromStream, setDataFromStream] = useState();
     const [dbres, setDbRes] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingFiltrationName, setIsLoadingFiltrationName] = useState();
+    const [isLoadingFiltrationPrice, setIsLoadingFiltrationPrice] = useState();
+    const [isLoadingFiltrationChange, setIsLoadingFiltrationChange] = useState();
+    const [isLoadingFiltrationTrades, setIsLoadingFiltrationTrades] = useState();
+
     const [cookies, setCookie] = useCookies([]);
     const [tickerWaiter, setTickerWaiter] = useState(false);
-    const [changePrice, setChangePrice] = useState([]);
+    const [filteredName, setFilteredName] = useState();
+
 
     const handle = (event) => {
         if (cookies.activeslist === undefined){
@@ -44,11 +52,20 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
             }
         }
     };
+    async function fetchdbinfo(){
+        let data1 = await axios.get(`http://localhost/crypto`);
+        console.log(data1);
+        setDbDataForSearch(data1.data);
+        setTitlesForStream(data1.data.map(elem=>elem.name.toLowerCase()));
+        setDbRes(data1.data);
+        childToParent(data1.data.map((elem)=>({[elem.name]: elem.full_name})));
+        setIsLoading(false);
+
+    };
+
+
     useEffect(()=> {
         const fetchData = async () => {
-            let data1 = await axios.get(`http://localhost/crypto`);
-            setDbdata(data1.data);
-            setDbRes(data1.data);
             // let stream_elem = document.getElementsByClassName("ticker_stream");
             // for (let item of stream_elem) {
             //     let ticker = item.getAttribute("valueiconticker")
@@ -56,55 +73,75 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
             //     item.innerHTML = data2.data[0][1];
             //     console.log(data2.data[0][1]);
             // }
-            let tickerarr = data1.data.map((elem)=> elem.name.toLowerCase()+"@ticker");
-            let client = new W3CWebSocket(`wss://stream.binance.com:9443/ws/${tickerarr.join('/')}`);
-            client.onopen = () => {
-                console.log(`Open`);
-                setTickerWaiter(true);
+            if(titlesForStream){
+                let tickerarr = titlesForStream.map((elem)=> elem.toLowerCase()+"@ticker");
+                let client = new W3CWebSocket(`wss://stream.binance.com:9443/ws/${tickerarr.join('/')}`);
+                client.onopen = () => {
+                    console.log(`Open`);
+                    // setTickerWaiter(true);
+                }
+                client.onmessage = (message) => {
+                    let res = JSON.parse(message['data']);
+                    let stream_elem = document.getElementsByClassName("ticker_stream");
+                    let stream_elem_change = document.getElementsByClassName("ticker_stream_change");
+                    let ticker_elem_volume = document.getElementsByClassName("ticker_stream_volume");
+
+                    let arr = dbres;
+                    arr.forEach((element)=>{
+                        if (element.name == res.s){
+                            if (res.c > 100){
+                                element['price']=Math.trunc(res.c);
+                            }
+                            else if(res.c > 1 && res.c < 100){
+                                element['price'] = Math.floor(res.c * 100)/100;
+                            }
+                            else {
+                                element['price'] = Math.floor( res.c * 1000000) / 1000000;
+                            }
+                            element['trades'] = Math.trunc(res.n);
+                            element['change'] = Math.floor( res.P * 100) / 100;
+                        }
+                    });
+                    setDataFromStream(dbres[0].price);
+                    // console.log(arr);
+                    // for (let item of stream_elem) {
+                    //     if (item.getAttribute("valueiconticker")==res.s){
+                    //         if (res.c > 100){
+                    //             item.innerHTML = `$${Math.trunc(res.c)}`;
+                    //         }
+                    //         else if(res.c > 1 && res.c < 100){
+                    //             item.innerHTML = `$${Math.floor(res.c * 100)/100}`;
+                    //         }
+                    //         else{
+                    //             item.innerHTML = `$${Math.floor( res.c * 1000000) / 1000000}`;
+                    //         }
+                    //
+                    //     }
+                    // }
+                    // for (let item of stream_elem_change) {
+                    //     if (item.getAttribute("valueicontickerchange")==res.s){
+                    //         item.innerHTML = `${Math.floor( res.P * 100) / 100}%`;
+                    //     }
+                    // }
+                    // for (let item of ticker_elem_volume) {
+                    //     if (item.getAttribute("valueicontickerchange")==res.s){
+                    //
+                    //         item.innerHTML = Math.trunc(res.n);
+                    //     }
+                    // }
+                    // console.log(res);
+                }
             }
-            client.onmessage = (message) => {
-                let res = JSON.parse(message['data']);
-                let stream_elem = document.getElementsByClassName("ticker_stream");
-                let stream_elem_change = document.getElementsByClassName("ticker_stream_change");
-                let ticker_elem_volume = document.getElementsByClassName("ticker_stream_volume");
 
-                for (let item of stream_elem) {
-                    if (item.getAttribute("valueiconticker")==res.s){
-                        if (res.c > 100){
-                            item.innerHTML = `$${Math.trunc(res.c)}`;
-                        }
-                        else if(res.c > 1 && res.c < 100){
-                            item.innerHTML = `$${Math.floor(res.c * 100)/100}`;
-                        }
-                        else{
-                            item.innerHTML = `$${Math.floor( res.c * 1000000) / 1000000}`;
-                        }
 
-                    }
-                }
-                for (let item of stream_elem_change) {
-                    if (item.getAttribute("valueicontickerchange")==res.s){
-                        item.innerHTML = `${Math.floor( res.P * 100) / 100}%`;
-                    }
-                }
-                for (let item of ticker_elem_volume) {
-                    if (item.getAttribute("valueicontickerchange")==res.s){
-
-                        item.innerHTML = Math.trunc(res.n);
-                    }
-                }
-                // console.log(res);
-            }
-
-            childToParent(data1.data.map((elem)=>({[elem.name]: elem.full_name })));
-            setIsLoading(false);
         }
 
-        if (parentToChildInput == undefined && parentToChildFilterName == undefined && tickerWaiter == false){
+        if (parentToChildInput == undefined && parentToChildFilterName == undefined && parentToChildFilterPrice == undefined && parentToChildFilterChange == undefined && parentToChildFilterTrades == undefined && tickerWaiter == false){
             fetchData();
-        } else if(parentToChildFilterName!==undefined && parentToChildInput !== undefined){
+        }
+        else if(parentToChildFilterName !== undefined  && parentToChildInput !== undefined){
             let arr = [];
-            dbdata.forEach((element)=>{
+            dbDataForSearch.forEach((element)=>{
                 parentToChildInput.forEach((elemParent)=>{
                     if (element.name == Object.keys(elemParent)){
                         arr.push(element);
@@ -114,106 +151,106 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
             if (parentToChildFilterName==true){
                 const propComparator = (propName) =>
                     (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
-                arr = arr.sort(propComparator('full_name'));
+                arr.sort(propComparator('full_name'));
             } else {
                 const propComparator = (propName) =>
                     (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
-                arr = arr.sort(propComparator('full_name'));
+                arr.sort(propComparator('full_name'));
             }
             setDbRes(arr);
-        } else if (parentToChildFilterName!==undefined || parentToChildFilterPrice!==undefined || parentToChildFilterChange!==undefined || parentToChildFilterTrades!==undefined){
-            if (parentToChildFilterName!==undefined){
-                if (parentToChildFilterName==true) {
-                    console.log(dbres);
+        } else if (parentToChildFilterName !== undefined || parentToChildFilterPrice !== undefined || parentToChildFilterChange !== undefined
+            || parentToChildFilterTrades !== undefined){
+
+            if (parentToChildFilterName !== undefined){
+                if (parentToChildFilterName == true) {
+                    let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
-                    const filteredPrice = dbres.sort(propComparator('full_name'));
-                    console.log(dbres);
-                    setChangePrice(filteredPrice);
-                    setDbRes(filteredPrice);
-
-                    // alert("from big to small");
-                }
-                if (parentToChildFilterName==false) {
-                    console.log(dbres);
+                    arr.sort(propComparator('full_name'));
+                    setDbRes(arr);
+                    setIsLoadingFiltrationName(arr[0].name);
+                } else {
+                    let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
-                    const filteredPrice = dbres.sort(propComparator('full_name'));
-                    console.log(dbres);
-                    setChangePrice(filteredPrice);
-                    setDbRes(filteredPrice);
+                    arr.sort(propComparator('full_name'));
+                    setDbRes(arr);
+                    setIsLoadingFiltrationName(arr[0].name);
                 };
             }
             if (parentToChildFilterPrice!==undefined){
                 if (parentToChildFilterPrice==true) {
                     console.log(dbres);
+                    let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
-                    const filteredPrice = dbres.sort(propComparator('full_name'));
+                    arr.sort(propComparator('price'));
+                    setDbRes(arr);
+                    setIsLoadingFiltrationPrice(arr[0].price);
                     console.log(dbres);
-                    setChangePrice(filteredPrice);
-                    setDbRes(filteredPrice);
-
-                    // alert("from big to small");
                 }
                 if (parentToChildFilterPrice==false) {
                     console.log(dbres);
+                    let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
-                    const filteredPrice = dbres.sort(propComparator('full_name'));
+                    arr.sort(propComparator('price'));
+                    setDbRes(arr);
+                    setIsLoadingFiltrationPrice(arr[0].price);
                     console.log(dbres);
-                    setChangePrice(filteredPrice);
-                    setDbRes(filteredPrice);
+
                 };
             }
             if (parentToChildFilterChange!==undefined){
                 if (parentToChildFilterChange==true) {
                     console.log(dbres);
+                    let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
-                    const filteredPrice = dbres.sort(propComparator('full_name'));
+                    arr.sort(propComparator('change'));
+                    setDbRes(arr);
+                    setIsLoadingFiltrationChange(arr[0].change);
                     console.log(dbres);
-                    setChangePrice(filteredPrice);
-                    setDbRes(filteredPrice);
-
-                    // alert("from big to small");
                 }
                 if (parentToChildFilterChange==false) {
                     console.log(dbres);
+                    let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
-                    const filteredPrice = dbres.sort(propComparator('full_name'));
+                    arr.sort(propComparator('change'));
+                    setDbRes(arr);
+                    setIsLoadingFiltrationChange(arr[0].change);
                     console.log(dbres);
-                    setChangePrice(filteredPrice);
-                    setDbRes(filteredPrice);
                 };
             }
             if (parentToChildFilterTrades!==undefined){
                 if (parentToChildFilterTrades==true) {
                     console.log(dbres);
+                    let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
-                    const filteredPrice = dbres.sort(propComparator('full_name'));
+                    arr.sort(propComparator('trades'));
+                    setDbRes(arr);
+                    setIsLoadingFiltrationTrades(arr[0].trades);
                     console.log(dbres);
-                    setChangePrice(filteredPrice);
-                    setDbRes(filteredPrice);
-
-                    // alert("from big to small");
                 }
                 if (parentToChildFilterTrades==false) {
                     console.log(dbres);
+                    let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
-                    const filteredPrice = dbres.sort(propComparator('full_name'));
+                    arr.sort(propComparator('trades'));
+                    setDbRes(arr);
+                    setIsLoadingFiltrationTrades(arr[0].trades);
                     console.log(dbres);
-                    setChangePrice(filteredPrice);
-                    setDbRes(filteredPrice);
                 };
             }
-        } else if (parentToChildInput !== undefined){
+
+        }
+        else if (parentToChildInput !== undefined){
             console.log(parentToChildInput);
             let arr = [];
-            dbdata.forEach((element)=>{
+            dbDataForSearch.forEach((element)=>{
                 parentToChildInput.forEach((elemParent)=>{
                     if (element.name == Object.keys(elemParent)){
                         arr.push(element);
@@ -224,7 +261,10 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
         }
 
 
-    },[parentToChildInput,parentToChildFilterName,changePrice])
+    },[parentToChildInput,parentToChildFilterName,parentToChildFilterPrice,parentToChildFilterChange,parentToChildFilterTrades,isLoadingFiltrationName,titlesForStream,dataFromStream,setIsLoadingFiltrationTrades,setIsLoadingFiltrationChange,setIsLoadingFiltrationPrice])
+    useEffect(()=>{
+        fetchdbinfo();
+    },[]);
 
     return(
         <div className='list_crypto_items'>
@@ -236,10 +276,9 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
                         <div key={element.name} className="list_item_link">{element.name}</div>
                     </Link>
                     <Link className='main_info' to={"/ticker-details/"+element.name.trim()}>
-                        <div className="ticker_stream" valueiconticker={element.name}>Loading</div>
-                        <div className="ticker_stream_change" valueicontickerchange={element.name}>Loading</div>
-                        <div className="ticker_stream_volume" valueicontickerchange={element.name}>Loading</div>
-
+                        <div className="ticker_stream" valueiconticker={element.name}>{element.price?`$${element.price}`:<p>Loading</p>}</div>
+                        <div className="ticker_stream_change" valueicontickerchange={element.name}>{element.change?`${element.change}%`:<p>Loading</p>}</div>
+                        <div className="ticker_stream_volume" valueicontickertrades={element.name}>{element.trades?`${element.trades}`:<p>Loading</p>}</div>
                     </Link>
                     <div className="cart">
                         <div onClick={handle} className="button_favourite_list" value={element.name}>
