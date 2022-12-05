@@ -44,52 +44,118 @@ function MainPage () {
      const handelName = (e) => {
          if (nameFilter == undefined){
              setNameFilter(true);
+
+             setPriceFilter(undefined);
+             setChangeFilter(undefined);
+             setTradesFilter(undefined);
+
              console.log("1",nameFilter);
+
 
          } else if(nameFilter == true){
              setNameFilter(false);
+
+             setPriceFilter(undefined);
+             setChangeFilter(undefined);
+             setTradesFilter(undefined);
+
              console.log("2",nameFilter);
+
 
          } else if (nameFilter == false) {
              setNameFilter(true);
+
+             setPriceFilter(undefined);
+             setChangeFilter(undefined);
+             setTradesFilter(undefined);
+
              console.log("3",nameFilter);
+
 
          }
      }
     const handelPrice = (e) => {
         if (priceFilter == undefined){
             setPriceFilter(true);
+
+            setNameFilter(undefined);
+            setChangeFilter(undefined);
+            setTradesFilter(undefined);
+
             console.log("1",priceFilter);
 
         } else if(priceFilter == true){
             setPriceFilter(false);
+
+            setNameFilter(undefined);
+            setChangeFilter(undefined);
+            setTradesFilter(undefined);
+
             console.log("2",priceFilter);
 
         } else {
             setPriceFilter(true);
+
+            setNameFilter(undefined);
+            setChangeFilter(undefined);
+            setTradesFilter(undefined);
+
             console.log("3",priceFilter);
         }
     }
     const handelChange = (e) => {
         if (changeFilter == undefined){
             setChangeFilter(true);
+
+            setNameFilter(undefined);
+            setPriceFilter(undefined);
+            setTradesFilter(undefined);
+
             console.log(changeFilter);
 
         } else if(changeFilter == true){
             setChangeFilter(false);
+
+            setNameFilter(undefined);
+            setPriceFilter(undefined);
+            setTradesFilter(undefined);
+            console.log(changeFilter);
+
         } else {
             setChangeFilter(true);
+
+            setNameFilter(undefined);
+            setPriceFilter(undefined);
+            setTradesFilter(undefined);
+            console.log(changeFilter);
+
         }
     }
     const handelTrades = (e) => {
         if (tradesFilter == undefined){
             setTradesFilter(true);
+
+            setNameFilter(undefined);
+            setPriceFilter(undefined);
+            setChangeFilter(undefined);
             console.log(tradesFilter);
 
         } else if(tradesFilter == true){
             setTradesFilter(false);
+
+            setNameFilter(undefined);
+            setPriceFilter(undefined);
+            setChangeFilter(undefined);
+            console.log(changeFilter);
+
         } else {
             setTradesFilter(true);
+
+            setNameFilter(undefined);
+            setPriceFilter(undefined);
+            setChangeFilter(undefined);
+            console.log(changeFilter);
+
         }
     }
 

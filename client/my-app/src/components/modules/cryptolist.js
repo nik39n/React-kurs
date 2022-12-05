@@ -11,15 +11,17 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
     const [titlesForStream, setTitlesForStream] = useState();
     const [dataFromStream, setDataFromStream] = useState();
     const [dbres, setDbRes] = useState();
+
+    const [parentToChildFilterNameState, setParentToChildFilterNameState] = useState(parentToChildFilterName);
+
     const [isLoading, setIsLoading] = useState(true);
-    const [isLoadingFiltrationName, setIsLoadingFiltrationName] = useState();
+    const [isLoadingFiltration, setIsLoadingFiltration] = useState();
     const [isLoadingFiltrationPrice, setIsLoadingFiltrationPrice] = useState();
     const [isLoadingFiltrationChange, setIsLoadingFiltrationChange] = useState();
     const [isLoadingFiltrationTrades, setIsLoadingFiltrationTrades] = useState();
 
     const [cookies, setCookie] = useCookies([]);
     const [tickerWaiter, setTickerWaiter] = useState(false);
-    const [filteredName, setFilteredName] = useState();
 
 
     const handle = (event) => {
@@ -78,7 +80,6 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
                 let client = new W3CWebSocket(`wss://stream.binance.com:9443/ws/${tickerarr.join('/')}`);
                 client.onopen = () => {
                     console.log(`Open`);
-                    // setTickerWaiter(true);
                 }
                 client.onmessage = (message) => {
                     let res = JSON.parse(message['data']);
@@ -136,8 +137,10 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
 
         }
 
-        if (parentToChildInput == undefined && parentToChildFilterName == undefined && parentToChildFilterPrice == undefined && parentToChildFilterChange == undefined && parentToChildFilterTrades == undefined && tickerWaiter == false){
+        if (parentToChildInput == undefined && parentToChildFilterName == undefined && parentToChildFilterPrice == undefined && parentToChildFilterChange == undefined && parentToChildFilterTrades == undefined){
+
             fetchData();
+
         }
         else if(parentToChildFilterName !== undefined  && parentToChildInput !== undefined){
             let arr = [];
@@ -168,14 +171,18 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
                     arr.sort(propComparator('full_name'));
                     setDbRes(arr);
-                    setIsLoadingFiltrationName(arr[0].name);
+                    setIsLoadingFiltration(arr[0].trades);
+
+
                 } else {
                     let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
                     arr.sort(propComparator('full_name'));
                     setDbRes(arr);
-                    setIsLoadingFiltrationName(arr[0].name);
+                    setIsLoadingFiltration(arr[0].trades);
+
+
                 };
             }
             if (parentToChildFilterPrice!==undefined){
@@ -186,18 +193,16 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
                     arr.sort(propComparator('price'));
                     setDbRes(arr);
-                    setIsLoadingFiltrationPrice(arr[0].price);
-                    console.log(dbres);
+                    setIsLoadingFiltration(arr[0].trades);
+
                 }
                 if (parentToChildFilterPrice==false) {
-                    console.log(dbres);
                     let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
                     arr.sort(propComparator('price'));
                     setDbRes(arr);
-                    setIsLoadingFiltrationPrice(arr[0].price);
-                    console.log(dbres);
+                    setIsLoadingFiltration(arr[0].trades);
 
                 };
             }
@@ -209,40 +214,37 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
                     arr.sort(propComparator('change'));
                     setDbRes(arr);
-                    setIsLoadingFiltrationChange(arr[0].change);
-                    console.log(dbres);
+                    setIsLoadingFiltration(arr[0].trades);
+
                 }
                 if (parentToChildFilterChange==false) {
-                    console.log(dbres);
                     let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
                     arr.sort(propComparator('change'));
                     setDbRes(arr);
-                    setIsLoadingFiltrationChange(arr[0].change);
-                    console.log(dbres);
+                    setIsLoadingFiltration(arr[0].trades);
+
                 };
             }
             if (parentToChildFilterTrades!==undefined){
-                if (parentToChildFilterTrades==true) {
-                    console.log(dbres);
+                if (parentToChildFilterTrades == true) {
                     let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
                     arr.sort(propComparator('trades'));
                     setDbRes(arr);
-                    setIsLoadingFiltrationTrades(arr[0].trades);
-                    console.log(dbres);
+                    setIsLoadingFiltration(arr[0].trades);
+
                 }
                 if (parentToChildFilterTrades==false) {
-                    console.log(dbres);
                     let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
                     arr.sort(propComparator('trades'));
                     setDbRes(arr);
-                    setIsLoadingFiltrationTrades(arr[0].trades);
-                    console.log(dbres);
+                    setIsLoadingFiltration(arr[0].trades);
+
                 };
             }
 
@@ -261,7 +263,8 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
         }
 
 
-    },[parentToChildInput,parentToChildFilterName,parentToChildFilterPrice,parentToChildFilterChange,parentToChildFilterTrades,isLoadingFiltrationName,titlesForStream,dataFromStream,setIsLoadingFiltrationTrades,setIsLoadingFiltrationChange,setIsLoadingFiltrationPrice])
+    },[parentToChildInput,parentToChildFilterName,parentToChildFilterPrice,parentToChildFilterChange,parentToChildFilterTrades,isLoadingFiltration,titlesForStream]);
+
     useEffect(()=>{
         fetchdbinfo();
     },[]);
