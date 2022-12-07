@@ -6,9 +6,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    /*flex-wrap: nowrap;*/
 }
 .chart{
-    width: 1000px;
 }
 .ticker{
     display: flex;

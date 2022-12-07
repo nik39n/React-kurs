@@ -37,7 +37,6 @@ export class ApiTicker extends React.Component {
         fetchData();
 
         this.client.onopen = () => {
-        console.log('WebSocket Client Connected');
 
 
         this.setState({
@@ -128,7 +127,7 @@ export class ApiTicker extends React.Component {
                     <div className="main-stat">
                         <div className="price">
                             <div className={"live-price " + this.state.className}>
-                                {this.state.items.c ? Math.floor(this.state.items.c * 1000000) / 1000000 : 0 }
+                                {this.state.items.c > 100 ? Math.trunc(this.state.items.c): this.state.items.c > 1 && this.state.items.c < 100 ? Math.floor(this.state.items.c * 100)/100: Math.floor( this.state.items.c * 1000000) / 1000000}
                             </div>
                             <div className="price-currency">USD</div>
                             <div className={"changed-price__24h "+this.state.classNameDifference}>
@@ -140,22 +139,22 @@ export class ApiTicker extends React.Component {
                         </div>
                         <div className="work-time">
                             <div className="marker_market"></div>
-                            <div className="work-time-status">Рынок открыт</div>
+                            <div className="work-time-status">Market Opened</div>
 
                         </div>
                     </div>
 
                     <div className="key-stat">
-                        <div className="title_key-stat">Статистика</div>
+                        <div className="title_key-stat">Statistic</div>
                         <div className="main_key-stat">
                             <div className="high-price">
-                                Самая высокая цена: {(this.state.items.h ? Math.floor(this.state.items.h) :0)}
+                                The highest price: {(this.state.items.h ? Math.floor(this.state.items.h) :0)}
                             </div>
                             <div className="low-price">
-                                Самая низкая цена: {(this.state.items.l ? Math.floor(this.state.items.l) :0)}
+                                The lowest price: {(this.state.items.l ? Math.floor(this.state.items.l) :0)}
                             </div>
                             <div className="volume">
-                                Объем торгов: {(this.state.items.v ? Math.floor(this.state.items.v) :0)}
+                                Value of trading: {(this.state.items.v ? Math.floor(this.state.items.v) :0)}
                             </div>
                         </div>
 

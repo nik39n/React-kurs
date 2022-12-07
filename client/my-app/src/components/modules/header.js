@@ -6,8 +6,7 @@ function Header(){
     return(
         <div className="header">
             <div className="logo_name">
-                <Link to='/main-page'>logo</Link>
-                <img src="" alt=""/>
+                <Link to='/main-page'><img src={require("../../analytic.png")} alt="" className='logo'/></Link>
             </div>
             <div className="type_of_stock">
                 <Link  to='/main-page/crypto' className="type_of_stock_item crypto">Crypto</Link>

@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from "react";
 import './style/mainpage.css';
-import axios from "axios";
-import mainchart from "./modules/mainchart";
 import Header from "./modules/header";
 import {Link, useParams} from "react-router-dom";
 import Cryptolist from "./modules/cryptolist";
-import Stockslist from "./modules/stockslist";
-import {Line} from "react-chartjs-2";
-import { useCookies } from 'react-cookie';
-import CryptoList from "./modules/cryptolist";
 import StocksList from "./modules/stockslist";
+
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+// import { Col, Row, Container } from "@kunukn/react-bootstrap-grid";
 
 function MainPage () {
  const params = useParams();
@@ -49,7 +48,6 @@ function MainPage () {
              setChangeFilter(undefined);
              setTradesFilter(undefined);
 
-             console.log("1",nameFilter);
 
 
          } else if(nameFilter == true){
@@ -59,7 +57,6 @@ function MainPage () {
              setChangeFilter(undefined);
              setTradesFilter(undefined);
 
-             console.log("2",nameFilter);
 
 
          } else if (nameFilter == false) {
@@ -69,7 +66,6 @@ function MainPage () {
              setChangeFilter(undefined);
              setTradesFilter(undefined);
 
-             console.log("3",nameFilter);
 
 
          }
@@ -82,7 +78,6 @@ function MainPage () {
             setChangeFilter(undefined);
             setTradesFilter(undefined);
 
-            console.log("1",priceFilter);
 
         } else if(priceFilter == true){
             setPriceFilter(false);
@@ -91,7 +86,6 @@ function MainPage () {
             setChangeFilter(undefined);
             setTradesFilter(undefined);
 
-            console.log("2",priceFilter);
 
         } else {
             setPriceFilter(true);
@@ -100,7 +94,6 @@ function MainPage () {
             setChangeFilter(undefined);
             setTradesFilter(undefined);
 
-            console.log("3",priceFilter);
         }
     }
     const handelChange = (e) => {
@@ -111,7 +104,6 @@ function MainPage () {
             setPriceFilter(undefined);
             setTradesFilter(undefined);
 
-            console.log(changeFilter);
 
         } else if(changeFilter == true){
             setChangeFilter(false);
@@ -119,7 +111,6 @@ function MainPage () {
             setNameFilter(undefined);
             setPriceFilter(undefined);
             setTradesFilter(undefined);
-            console.log(changeFilter);
 
         } else {
             setChangeFilter(true);
@@ -127,7 +118,6 @@ function MainPage () {
             setNameFilter(undefined);
             setPriceFilter(undefined);
             setTradesFilter(undefined);
-            console.log(changeFilter);
 
         }
     }
@@ -138,7 +128,6 @@ function MainPage () {
             setNameFilter(undefined);
             setPriceFilter(undefined);
             setChangeFilter(undefined);
-            console.log(tradesFilter);
 
         } else if(tradesFilter == true){
             setTradesFilter(false);
@@ -146,7 +135,6 @@ function MainPage () {
             setNameFilter(undefined);
             setPriceFilter(undefined);
             setChangeFilter(undefined);
-            console.log(changeFilter);
 
         } else {
             setTradesFilter(true);
@@ -154,7 +142,6 @@ function MainPage () {
             setNameFilter(undefined);
             setPriceFilter(undefined);
             setChangeFilter(undefined);
-            console.log(changeFilter);
 
         }
     }
@@ -164,33 +151,28 @@ function MainPage () {
     return(
         <div className="main">
             <Header></Header>
-            <div className="container">
-                <div className="section_above_list">
-                    <div className="name_of_market">
+            <Container className="cover">
+                <Row className="section_above_list">
+                    <Col xl={{span: 2}} lg={{span:2}} md={{span:4}} sm={{span:4}} xs={12} className="name_of_market d-flex">
                         <h1>{params.typeActives.toUpperCase()}</h1>
-                    </div>
-                    <div className="search">
+                    </Col>
+                    <Col xl={{span:2, offset: 8}} lg={{span:2, offset:8}} md={{span:4,offset:4}} sm={{span:4,offset:4}} xs={{span:12}}  className="search">
                         <input type="text" placeholder="Search" onChange={handleChange} value={searchInput} className="search_input"/>
-                    </div>
-                </div>
-                <div className="list_of_actives">
-                    <div className="filters">
-                        <div onClick={handelName} className="filter_item filter_item_name">Name</div>
-                        <div className="filter_wrapper">
-                            <div onClick={handelPrice} className="filter_item filter_item_price">Price</div>
-                            <div onClick={handelChange} className="filter_item filter_item_change">24h</div>
-                            <div onClick={handelTrades} className="filter_item filter_item_trades">Trades</div>
-                        </div>
-                        <div className="plug">
-
-                        </div>
-
-                    </div>
+                    </Col>
+                </Row>
+                <Row className="list_of_actives">
+                    <Row className="filters">
+                        <Col xl={{span:3}}  lg={{span:3}} md={{span:4}} sm={{span:6}}  xs={{span:7}}onClick={handelName} className="filter_item filter_item_name"><p className="filter_item_wrapper">Name</p></Col>
+                        <Col xl={{span:2}}  lg={{span:2}} md={{span:2}} sm={{span:2}} xs={{span:2}} onClick={handelPrice} className="filter_item filter_item_price"><p className="filter_item_wrapper">Price</p></Col>
+                        <Col xl={{span:3}}  lg={{span:3}} md={{span:2}} sm={{span:2}} xs={{span:2}} onClick={handelChange} className="filter_item filter_item_change"><p className="filter_item_wrapper">24h/Change</p></Col>
+                        <Col xl={{span:2}}  lg={{span:2}} md={{span:2}} onClick={handelTrades} className="filter_item filter_item_trades d-none d-md-flex pe-xl-5 pe-md-3"><p className="filter_item_wrapper">Trades</p></Col>
+                        <Col xl={{span:2}} lg={{span:2}} md={{span:1}} sm={{span:1}} xs={{span:0}} ></Col>
+                    </Row>
                     {
                         params.typeActives == "crypto" ? <Cryptolist parentToChildInput={dataToList} parentToChildFilterName={nameFilter} parentToChildFilterPrice={priceFilter} parentToChildFilterChange={changeFilter} parentToChildFilterTrades={tradesFilter}  childToParent={childToParent}></Cryptolist> : <StocksList></StocksList>
                     }
-                </div>
-            </div>
+                </Row>
+            </Container>
         </div>
 
     )

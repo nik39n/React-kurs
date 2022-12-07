@@ -25,19 +25,18 @@ function Favourite() {
             <Header>
             </Header>
             <div className='container'>
-                {cookies.activeslist ?
-                    cookies.activeslist.map(element =>
-                    <div className="list_item" id={element}>
-                        {/*<img src={element.img} alt=""/>*/}
-                        <div key={element} className="item_wrapper">
-                            <Link to={"/ticker-details/"+element.trim()} className="list_item_link_favourite" > {element} </Link>
-                            <div className="cart" >
-                                <button onClick={handle} className="button_favourite" valuedelete={element}>
-                                    Delete
-                                </button>
+                {cookies.activeslist==null || cookies.activeslist=='[ ]' || cookies.activeslist==undefined || cookies.activeslist=="" || cookies.activeslist=="%5B%5D" ||cookies.activeslist.length==0 ? <h1>Empty</h1> :cookies.activeslist.map(element =>
+                        <div className="list_item" id={element}>
+                            {/*<img src={element.img} alt=""/>*/}
+                            <div key={element} className="item_wrapper">
+                                <Link to={"/ticker-details/"+element.trim()} className="list_item_link_favourite" > {element} </Link>
+                                <div className="cart" >
+                                    <button onClick={handle} className="button_favourite" valuedelete={element}>
+                                        Delete
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </div>): <h1>Loading</h1>
+                        </div>)
                 }
             </div>
         </div>

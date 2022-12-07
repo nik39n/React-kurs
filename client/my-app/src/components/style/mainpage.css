@@ -1,8 +1,5 @@
-.container{
-    width: 1200px;
-    margin: auto;
-}
 .section_above_list{
+    margin-top: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -21,9 +18,7 @@
 .filters{
     display: flex;
     justify-content: flex-start;
-    margin: 10px 0;
-    padding: 20px;
-    justify-content: space-around;
+    margin: 40px 0 0px 0;
 
 }
 .list_of_actives{
@@ -51,23 +46,18 @@
 }
 .filter_item_name{
     display: flex;
-    justify-content: flex-start;
-    flex: 0.3;
     font-size: 14px;
     color: #1E2329;
 }
 .filter_item_price{
     display: flex;
-    justify-content: flex-start;
-    flex: 0.5;
     font-size: 14px;
     color: #1E2329;
 
 }
 .filter_item_change{
     display: flex;
-    justify-content: flex-start;
-    flex: 0.25;
+    justify-content: center;
     font-size: 14px;
     color: #1E2329;
 
@@ -75,9 +65,12 @@
 .filter_item_trades{
     display: flex;
     justify-content: center;
-    flex: 0.25;
     font-size: 14px;
     color: #1E2329;
+}
+.filter_item_wrapper:hover{
+    cursor: pointer;
+    color: #696969;
 }
 .plug{
     flex: 0.1;
@@ -86,3 +79,13 @@
     flex: 0.6;
     display: flex;
 }
+/*@media screen and (max-width: 1024px) and (min-width: 769px){*/
+/*    .section_above_list{*/
+/*        max-width: 769px;*/
+/*        margin-right: 0;*/
+/*    }*/
+/*    .filters{*/
+/*        max-width: 769px;*/
+
+/*    }*/
+/*}*/

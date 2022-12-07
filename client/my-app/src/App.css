@@ -1,4 +1,6 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
 
 .App {
   text-align: center;
@@ -39,3 +41,14 @@
     transform: rotate(360deg);
   }
 }
+/*@media screen and (max-width: 1024px) and (min-width: 769px){*/
+/*  .App{*/
+/*    max-width: 769px;*/
+/*    overflow-x: hidden;*/
+/*    overflow: hidden;*/
+/*  }*/
+
+/*}*/
+/*html, body {*/
+/*  overflow-x: hidden;*/
+/*}*/

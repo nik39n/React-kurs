@@ -24,7 +24,6 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    flex: 0.3;
 }
 
 .icon_title>img{
@@ -43,16 +42,13 @@
 .main_info{
     all: unset;
     text-decoration: none;
-    flex: 0.6;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+
 }
 .cart{
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex: 0.1;
+    justify-content: flex-end;
 }
 .svg_icon{
     fill: none;
@@ -87,7 +83,6 @@
     margin-bottom: 2px;
 }
 .ticker_stream{
-    flex: 0.5;
     display: flex;
     justify-content: flex-start;
     color: #1E2329;
@@ -98,9 +93,10 @@
 }
 .ticker_stream_change{
     display: flex;
-    justify-content: flex-start;
-    flex: 0.25;
+    justify-content: center;
     font-size: 16px;
+    text-decoration: none;
+    color: #1E2329;
     line-height: 24px;
     text-overflow: ellipsis;
     font-weight: 500;
@@ -108,9 +104,29 @@
 .ticker_stream_volume{
     display: flex;
     justify-content: center;
-    flex: 0.25;
     font-size: 16px;
     text-overflow: ellipsis;
     line-height: 24px;
     color: #1E2329;
 }
+.loading-header{
+    margin-top: 150px;
+}
+.loading{
+    margin: 0;
+    padding: 0;
+
+}
+/*@media screen and (max-width: 1024px) and (min-width: 769px){*/
+/*    .list_crypto_items{*/
+/*        max-width: 769px;*/
+/*    }*/
+/*    .list_item{*/
+/*        max-width: 769px;*/
+
+/*    }*/
+/*    ..list_crypto_items_of_actives{*/
+/*        width: 769px;*/
+/*        margin-right: 0;*/
+/*    }*/
+/*}*/

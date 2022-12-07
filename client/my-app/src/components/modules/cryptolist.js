@@ -5,6 +5,9 @@ import "../style/modules/cryptolist.css"
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,parentToChildFilterPrice,parentToChildFilterChange,parentToChildFilterTrades}){
     const [dbDataForSearch, setDbDataForSearch] = useState();
@@ -16,12 +19,8 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
 
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingFiltration, setIsLoadingFiltration] = useState();
-    const [isLoadingFiltrationPrice, setIsLoadingFiltrationPrice] = useState();
-    const [isLoadingFiltrationChange, setIsLoadingFiltrationChange] = useState();
-    const [isLoadingFiltrationTrades, setIsLoadingFiltrationTrades] = useState();
 
     const [cookies, setCookie] = useCookies([]);
-    const [tickerWaiter, setTickerWaiter] = useState(false);
 
 
     const handle = (event) => {
@@ -56,37 +55,23 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
     };
     async function fetchdbinfo(){
         let data1 = await axios.get(`http://localhost/crypto`);
-        console.log(data1);
         setDbDataForSearch(data1.data);
         setTitlesForStream(data1.data.map(elem=>elem.name.toLowerCase()));
         setDbRes(data1.data);
         childToParent(data1.data.map((elem)=>({[elem.name]: elem.full_name})));
-        setIsLoading(false);
 
     };
 
 
     useEffect(()=> {
         const fetchData = async () => {
-            // let stream_elem = document.getElementsByClassName("ticker_stream");
-            // for (let item of stream_elem) {
-            //     let ticker = item.getAttribute("valueiconticker")
-            //     let data2 = await axios.get(`https://api.binance.com/api/v3/klines?symbol=${ticker}&interval=1d&startTime=${Date.now()-86457402}&limit=1`);
-            //     item.innerHTML = data2.data[0][1];
-            //     console.log(data2.data[0][1]);
-            // }
             if(titlesForStream){
                 let tickerarr = titlesForStream.map((elem)=> elem.toLowerCase()+"@ticker");
                 let client = new W3CWebSocket(`wss://stream.binance.com:9443/ws/${tickerarr.join('/')}`);
                 client.onopen = () => {
-                    console.log(`Open`);
                 }
                 client.onmessage = (message) => {
                     let res = JSON.parse(message['data']);
-                    let stream_elem = document.getElementsByClassName("ticker_stream");
-                    let stream_elem_change = document.getElementsByClassName("ticker_stream_change");
-                    let ticker_elem_volume = document.getElementsByClassName("ticker_stream_volume");
-
                     let arr = dbres;
                     arr.forEach((element)=>{
                         if (element.name == res.s){
@@ -104,33 +89,8 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
                         }
                     });
                     setDataFromStream(dbres[0].price);
-                    // console.log(arr);
-                    // for (let item of stream_elem) {
-                    //     if (item.getAttribute("valueiconticker")==res.s){
-                    //         if (res.c > 100){
-                    //             item.innerHTML = `$${Math.trunc(res.c)}`;
-                    //         }
-                    //         else if(res.c > 1 && res.c < 100){
-                    //             item.innerHTML = `$${Math.floor(res.c * 100)/100}`;
-                    //         }
-                    //         else{
-                    //             item.innerHTML = `$${Math.floor( res.c * 1000000) / 1000000}`;
-                    //         }
-                    //
-                    //     }
-                    // }
-                    // for (let item of stream_elem_change) {
-                    //     if (item.getAttribute("valueicontickerchange")==res.s){
-                    //         item.innerHTML = `${Math.floor( res.P * 100) / 100}%`;
-                    //     }
-                    // }
-                    // for (let item of ticker_elem_volume) {
-                    //     if (item.getAttribute("valueicontickerchange")==res.s){
-                    //
-                    //         item.innerHTML = Math.trunc(res.n);
-                    //     }
-                    // }
-                    // console.log(res);
+                    setIsLoading(false);
+
                 }
             }
 
@@ -142,25 +102,89 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
             fetchData();
 
         }
-        else if(parentToChildFilterName !== undefined  && parentToChildInput !== undefined){
-            let arr = [];
-            dbDataForSearch.forEach((element)=>{
-                parentToChildInput.forEach((elemParent)=>{
-                    if (element.name == Object.keys(elemParent)){
-                        arr.push(element);
-                    }
+        else if((parentToChildFilterName !== undefined  &&  parentToChildInput !== undefined) || (parentToChildFilterPrice !== undefined  &&  parentToChildInput !== undefined) || (parentToChildFilterChange !== undefined  &&  parentToChildInput !== undefined) || (parentToChildFilterTrades !== undefined  &&  parentToChildInput !== undefined)){
+
+            if (parentToChildFilterName !== undefined  &&  parentToChildInput !== undefined){
+                let arr = [];
+                dbDataForSearch.forEach((element)=>{
+                    parentToChildInput.forEach((elemParent)=>{
+                        if (element.name == Object.keys(elemParent)){
+                            arr.push(element);
+                        }
+                    });
                 });
-            });
-            if (parentToChildFilterName==true){
-                const propComparator = (propName) =>
-                    (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
-                arr.sort(propComparator('full_name'));
-            } else {
-                const propComparator = (propName) =>
-                    (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
-                arr.sort(propComparator('full_name'));
+                if (parentToChildFilterName==true){
+                    const propComparator = (propName) =>
+                        (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
+                    arr.sort(propComparator('full_name'));
+                } else {
+                    const propComparator = (propName) =>
+                        (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
+                    arr.sort(propComparator('full_name'));
+                }
+                setDbRes(arr);
             }
-            setDbRes(arr);
+            if (parentToChildFilterPrice !== undefined  &&  parentToChildInput !== undefined){
+                let arr = [];
+                dbDataForSearch.forEach((element)=>{
+                    parentToChildInput.forEach((elemParent)=>{
+                        if (element.name == Object.keys(elemParent)){
+                            arr.push(element);
+                        }
+                    });
+                });
+                if (parentToChildFilterPrice==true){
+                    const propComparator = (propName) =>
+                        (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
+                    arr.sort(propComparator('price'));
+                } else {
+                    const propComparator = (propName) =>
+                        (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
+                    arr.sort(propComparator('price'));
+                }
+                setDbRes(arr);
+            }
+            if (parentToChildFilterChange !== undefined  &&  parentToChildInput !== undefined){
+                let arr = [];
+                dbDataForSearch.forEach((element)=>{
+                    parentToChildInput.forEach((elemParent)=>{
+                        if (element.name == Object.keys(elemParent)){
+                            arr.push(element);
+                        }
+                    });
+                });
+                if (parentToChildFilterChange==true){
+                    const propComparator = (propName) =>
+                        (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
+                    arr.sort(propComparator('change'));
+                } else {
+                    const propComparator = (propName) =>
+                        (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
+                    arr.sort(propComparator('change'));
+                }
+                setDbRes(arr);
+            }
+            if (parentToChildFilterTrades !== undefined  &&  parentToChildInput !== undefined){
+                let arr = [];
+                dbDataForSearch.forEach((element)=>{
+                    parentToChildInput.forEach((elemParent)=>{
+                        if (element.name == Object.keys(elemParent)){
+                            arr.push(element);
+                        }
+                    });
+                });
+                if (parentToChildFilterTrades==true){
+                    const propComparator = (propName) =>
+                        (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
+                    arr.sort(propComparator('trades'));
+                } else {
+                    const propComparator = (propName) =>
+                        (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
+                    arr.sort(propComparator('trades'));
+                }
+                setDbRes(arr);
+            }
+
         } else if (parentToChildFilterName !== undefined || parentToChildFilterPrice !== undefined || parentToChildFilterChange !== undefined
             || parentToChildFilterTrades !== undefined){
 
@@ -187,7 +211,6 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
             }
             if (parentToChildFilterPrice!==undefined){
                 if (parentToChildFilterPrice==true) {
-                    console.log(dbres);
                     let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
@@ -208,7 +231,6 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
             }
             if (parentToChildFilterChange!==undefined){
                 if (parentToChildFilterChange==true) {
-                    console.log(dbres);
                     let arr = dbres;
                     const propComparator = (propName) =>
                         (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
@@ -250,7 +272,6 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
 
         }
         else if (parentToChildInput !== undefined){
-            console.log(parentToChildInput);
             let arr = [];
             dbDataForSearch.forEach((element)=>{
                 parentToChildInput.forEach((elemParent)=>{
@@ -270,28 +291,35 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
     },[]);
 
     return(
-        <div className='list_crypto_items'>
-            {isLoading ? <h1>Loading</h1>:
-                dbres.map(element => <div className="list_item" key={element.name} >
-                    <Link className='icon_title' to={"/ticker-details/"+element.name.trim()}>
-                        <img src={element.img} alt=""/>
-                        <div key={element.full_name} className="ticker_name"> {element.full_name} </div>
-                        <div key={element.name} className="list_item_link">{element.name}</div>
-                    </Link>
-                    <Link className='main_info' to={"/ticker-details/"+element.name.trim()}>
-                        <div className="ticker_stream" valueiconticker={element.name}>{element.price?`$${element.price}`:<p>Loading</p>}</div>
-                        <div className="ticker_stream_change" valueicontickerchange={element.name}>{element.change?`${element.change}%`:<p>Loading</p>}</div>
-                        <div className="ticker_stream_volume" valueicontickertrades={element.name}>{element.trades?`${element.trades}`:<p>Loading</p>}</div>
-                    </Link>
-                    <div className="cart">
+        <Row className='list_crypto_items'>
+            {isLoading ? <h1 className="loading-header">Loading...</h1>:
+                dbres.map(element => <Row className="list_item d-flex align-items-center" key={element.name} >
+                    <Col xl={3} lg={3} md={4} sm={6} xs={7} >
+                        <Link className='icon_title col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2' to={"/ticker-details/"+element.name.trim()}>
+                            <img src={element.img} alt=""/>
+                            <div key={element.full_name} className="ticker_name"> {element.full_name} </div>
+                            <div key={element.name} className="list_item_link">{element.name}</div>
+                        </Link>
+                    </Col>
+                    <Col xl={{span: 7}} lg={{span: 7}} md={6} sm={5} xs={4}>
+                        <Link className='main_info col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8' to={"/ticker-details/"+element.name.trim()}>
+                            <Row>
+                                <Col xl={4} lg={4} md={4} sm={6} xs={6} className="ticker_stream" valueiconticker={element.name}>{element.price?`$${element.price}`:<p className="loading">Loading...</p>}</Col>
+                                <Col xl={4} lg={4} md={4} sm={6} xs={6} className="ticker_stream_change" valueicontickerchange={element.name}>{element.change?`${element.change}%`:<p className="loading">Loading...</p>}</Col>
+                                <Col xl={4} lg={4} md={4} className="ticker_stream_volume d-none d-md-block ps-xl-5 ps-lg-5 ps-md-5 ps-sm-5" valueicontickertrades={element.name}>{element.trades?`${element.trades}`:<p className="loading">Loading...</p>}</Col>
+                            </Row>
+                        </Link>
+                    </Col>
+
+                    <Col xl={2} lg={2} md={2} sm={1} xs={1} className="cart">
                         <div onClick={handle} className="button_favourite_list" value={element.name}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26px" height="26px" value={element.name} valueicon={element.id} className="svg_icon_main">
                                 <path value={element.name} valueicon={element.id} className={cookies.activeslist ? cookies.activeslist.includes(element.name) ? "svg_icon_black" : "svg_icon" :  "svg_icon"} id={"svg_icon"+element.id}  stroke="#111111" d="M17.56248,21.55957a1.00275,1.00275,0,0,1-.46531-.11475L12,18.76514,6.90283,21.44482a1.00019,1.00019,0,0,1-1.45117-1.0542l.97363-5.67578-4.12353-4.019a1.00033,1.00033,0,0,1,.5542-1.706l5.69873-.82813L11.103,2.99805a1.04173,1.04173,0,0,1,1.79394,0l2.54834,5.16357,5.69873.82813a1.00033,1.00033,0,0,1,.5542,1.706l-4.12353,4.019.97363,5.67578a1,1,0,0,1-.98586,1.169Z"/>
                             </svg>
                         </div>
-                    </div>
-                </div>)}
-        </div>
+                    </Col>
+                </Row>)}
+        </Row>
 
     )
 }

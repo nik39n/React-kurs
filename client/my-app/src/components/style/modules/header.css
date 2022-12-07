@@ -8,6 +8,10 @@
     z-index: 101;
     border-bottom: #a9a9a9 solid 1px;
 }
+.logo{
+    width: 50px;
+    height: 50px;
+}
 .logo_name{
     flex: 0.2;
 
@@ -59,3 +63,25 @@
 .header-cart>a:hover{
     color: rgb(84, 84, 84);
 }
+/*@media screen and (max-width: 1024px) and (min-width: 769px){*/
+/*    .header{*/
+/*        margin: 0;*/
+/*        max-width: 769px;*/
+/*        flex: none;*/
+/*        display: flex;*/
+/*        justify-content: space-between;*/
+/*    }*/
+/*    .logo_name{*/
+/*        flex: none;*/
+
+/*        display: flex;*/
+/*    }*/
+/*    .type_of_stock{*/
+/*        flex: none;*/
+
+/*        display: flex;*/
+/*    }*/
+/*    .header-cart{*/
+/*        display: flex;*/
+/*    }*/
+/*}*/
