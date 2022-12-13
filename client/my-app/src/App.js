@@ -5,6 +5,7 @@ import {ApiTicker} from "./components/modules/apiticker";
 import MainPage from "./components/mainpage";
 import Favourite from "./components/favourite";
 import {Route, Redirect, Switch} from "react-router-dom";
+import {Helmet} from "react-helmet";
 import React from "react";
 
 function App() {
@@ -13,7 +14,11 @@ function App() {
 
 
   return (
+
     <div className="App">
+        <Helmet>
+            <title>Investing Wallet</title>
+        </Helmet>
         <Switch>
             <Route exact path="/">
                 <Redirect to='/main-page/crypto' />
