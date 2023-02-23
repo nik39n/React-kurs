@@ -1,6 +1,7 @@
 import './App.css';
 import MainChart from './components/modules/mainchart';
 import MainDashboard from "./components/maindashboard";
+import MainDashboardStock from "./components/maindashboardstock";
 import {ApiTicker} from "./components/modules/apiticker";
 import MainPage from "./components/mainpage";
 import Favourite from "./components/favourite";
@@ -31,6 +32,9 @@ function App() {
             </Route>
             <Route path="/ticker-details/:tickerName">
                 <MainDashboard/>
+            </Route>
+            <Route path="/ticker-details-stock/:tickerName">
+                <MainDashboardStock/>
             </Route>
             <Route path="/favourite">
                 <Favourite></Favourite>
