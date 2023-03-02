@@ -14,6 +14,7 @@ import axios from "axios";
 import StockTiker from "./modules/stocktiker";
 import MainChartStock from "./modules/mainschartstock";
 import PerformanceStock from "./modules/performancestock";
+import EarningsDiagramStock from "./modules/earningsdiagramstock";
 
 function MainDashboardStock () {
     const params = useParams();
@@ -29,6 +30,7 @@ function MainDashboardStock () {
                     <Col xl={3} lg={3} md={3} sm={12} className="ticker ps-5 mt-md-5">
                         <StockTiker name={params.tickerName}></StockTiker>
                         <PerformanceStock name={params.tickerName}></PerformanceStock>
+                        <EarningsDiagramStock name={params.tickerName}></EarningsDiagramStock>
                     </Col>
                 </Row>
             </Container>

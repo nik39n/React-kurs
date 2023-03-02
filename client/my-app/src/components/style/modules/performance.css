@@ -13,6 +13,9 @@
     align-items: center;
     justify-content: space-between;
 }
+.key-stat{
+    margin-bottom: 20px;
+}
 .performance_card{
     padding: 5px 15px;
     width: 90px;

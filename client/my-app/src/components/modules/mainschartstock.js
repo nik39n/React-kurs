@@ -82,7 +82,6 @@ function MainChartStock(props) {
 
             let resData = [];
 
-            console.log(entries[0]);
             entries[0].forEach((currentElement)=>{
                 if (currentElement[0] > dateRange){   // loop with generation necessary count of data point RETURN ARRAY with data
                     resData.push(currentElement);
@@ -103,7 +102,7 @@ function MainChartStock(props) {
             });
             setIsLoading(false);
         }
-        fetchData()
+        // fetchData()
     },[paramDistance,intervalParam])
     return(
         <div className="main_chart">

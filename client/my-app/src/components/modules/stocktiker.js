@@ -1,6 +1,8 @@
 import {Link, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import '../style/modules/apiticker.css';
+
 // import StockSocket from "stocksocket";
 
 function StockTiker(props){
@@ -10,19 +12,19 @@ function StockTiker(props){
 
 
     useEffect(()=>{
-        // const fetchData = async () => {
-        //
-        //      let apiStockTicker = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/qu/quote/AAPL/financial-data`,{
-        //          headers: {
-        //              'X-RapidAPI-Key': '30c2da4a55msh871baf4c2d8a78dp16021cjsn9e4fdc286002',
-        //              'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
-        //          }
-        //      });
-        //     setPriceNow(apiStockTicker.data.financialData.currentPrice.raw);
-        //
-        //
-        //
-        // }
+        const fetchData = async () => {
+
+             let apiStockTicker = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/qu/quote/AAPL/financial-data`,{
+                 headers: {
+                     'X-RapidAPI-Key': '30c2da4a55msh871baf4c2d8a78dp16021cjsn9e4fdc286002',
+                     'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
+                 }
+             });
+            setPriceNow(apiStockTicker.data.financialData.currentPrice.raw);
+
+
+
+        }
         const fetchDataDb = async ()=>{
             let dbinfo = await axios.get(`http://localhost/stocks`);
             if (dbinfo != undefined){
@@ -46,12 +48,12 @@ function StockTiker(props){
                 </div>
                 <div className="ticker-description">
                     <div className="description-main">
-                        <a href="client/my-app/src/components/modules/apiticker" className="company-name__link"><div className="company-name">{infoName.full_name ? infoName.full_name : <span>load</span> } / TetherUS</div></a>
+                        <a href="client/my-app/src/components/modules/apiticker" className="company-name__link"><div className="company-name">{infoName.full_name ? infoName.full_name : <span>load</span> } / USD</div></a>
                         <div className="dotwrap"></div>
                         <div className="market-name">NYSE</div>
                     </div>
                     <div className="sector-name">
-                        Crypto
+                        Stock
                     </div>
                 </div>
             </div>
@@ -76,22 +78,6 @@ function StockTiker(props){
                         <div className="work-time-status">Market Opened</div>
 
                     </div>
-                </div>
-
-                <div className="key-stat">
-                    <div className="title_key-stat">Statistic</div>
-                    <div className="main_key-stat">
-                        <div className="high-price">
-                            {/*The highest price: {(this.state.items.h ? Math.floor(this.state.items.h) :0)}*/}
-                        </div>
-                        <div className="low-price">
-                            {/*The lowest price: {(this.state.items.l ? Math.floor(this.state.items.l) :0)}*/}
-                        </div>
-                        <div className="volume">
-                            {/*Value of trading: {(this.state.items.v ? Math.floor(this.state.items.v) :0)}*/}
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>

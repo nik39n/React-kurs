@@ -11,6 +11,9 @@ function PerformanceStock(props){
     const [priceOneWeek, setPriceOneWeek] = useState();
     const [priceYTD , setPriceYTD] = useState();
     const [priceToday, setPriceToday] = useState();
+
+    const [entries, setEntries] = useState();
+
     let week = 657000;
     let halfYear = 15768000;
     let year = 31536000;
@@ -34,7 +37,7 @@ function PerformanceStock(props){
                 }
             });
             const entries = [Object.entries(data.items)]; // Array of array with data about all points
-
+            setEntries(entries);
 
             let dateMonthLess = new Date(entries[0][(entries[0].length)-2][0]*1000);
             dateMonthLess.setMonth(dateMonthLess.getMonth()-1);
@@ -95,12 +98,26 @@ function PerformanceStock(props){
 
             setIsLoading(false);
         }
-        fetchData();
+        // fetchData();
     },[priceYearPerformance,priceHalfYearPerformance,priceThreeMonthPerformance,priceOneMonthPerformance,priceOneWeekPerformance,priceYTDPerformance]);
 
 
     return(
         <div className="performance_block">
+            <div className="key-stat">
+                <div className="title_key-stat">Statistic</div>
+                <div className="main_key-stat">
+                    <div className="high-price">
+                        The highest price: {entries ? entries[0][(entries[0].length)-1][1].high : 0}
+                    </div>
+                    <div className="low-price">
+                        The lowest price: {entries ? entries[0][(entries[0].length)-1][1].low : 0}
+                    </div>
+                    <div className="volume">
+                        Value of trading: {entries ? entries[0][(entries[0].length)-1][1].volume : 0}
+                    </div>
+                </div>
+            </div>
             <p className="performance_title">Performance</p>
             <div className="performance">
                 <div className={`performance_card one-week ${priceOneWeekPerformance>0 ? " plus" : " minus"}`}>

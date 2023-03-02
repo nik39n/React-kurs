@@ -1,0 +1,10 @@
+.title_earnings{
+    color: #131722;
+    display: flex;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 17px;
+    margin-bottom: 8px;
+    margin-top: 20px;
+    justify-content: flex-start;
+}
