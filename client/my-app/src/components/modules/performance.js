@@ -22,7 +22,7 @@ function Performance(props){
 
     useEffect(()=>{
         const fetchData = async () => {
-            let data2 = await axios.get(`https://api.binance.com/api/v3/klines?symbol=${props.name}&interval=1d&startTime=${1640995201000}&limit=1`);
+            let data2 = await axios.get(`https://api.binance.com/api/v3/klines?symbol=${props.name}&interval=1d&startTime=${1672566240000}&limit=1`);
             let {data} = await axios.get(`https://api.binance.com/api/v3/klines?symbol=${props.name}&interval=1d&startTime=${Date.now() - 31556926000}&limit=1000`);
             setPriceYear(data[0][1]);
             setPriceHalfYear(data[data.length-183][4]);

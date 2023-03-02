@@ -51,8 +51,7 @@ function PerformanceStock(props){
             let dateHalfYearLess = new Date(entries[0][(entries[0].length)-2][0]*1000);
             dateHalfYearLess.setMonth(dateHalfYearLess.getMonth()-6);
 
-            let dateYTDLess = new Date(entries[0][(entries[0].length)-2][0]*1000);
-            dateYTDLess.setMonth(dateYTDLess.getMonth()-6);
+            let dateYTDLess = new Date(1672756200000);
 
             function dayCheck (date,data){
                 let dateLessUTC = 0;
