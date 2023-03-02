@@ -13,6 +13,7 @@ import Col from 'react-bootstrap/Col';
 import axios from "axios";
 import StockTiker from "./modules/stocktiker";
 import MainChartStock from "./modules/mainschartstock";
+import PerformanceStock from "./modules/performancestock";
 
 function MainDashboardStock () {
     const params = useParams();
@@ -27,7 +28,7 @@ function MainDashboardStock () {
 
                     <Col xl={3} lg={3} md={3} sm={12} className="ticker ps-5 mt-md-5">
                         <StockTiker name={params.tickerName}></StockTiker>
-                        {/*<Performance name={params.tickerName}></Performance>*/}
+                        <PerformanceStock name={params.tickerName}></PerformanceStock>
                     </Col>
                 </Row>
             </Container>

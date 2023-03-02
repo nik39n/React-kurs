@@ -25,10 +25,10 @@ ChartJS.register(
 
 
 function MainChartStock(props) {
-    let week = 7;
-    let halfYear = 182;
-    let year = 365;
-    let month = 31;
+    let week = 657000;
+    let halfYear = 15768000;
+    let year = 31536000;
+    let month = 2628000;
 
     let fiveMinutesInterval = '5m';
     let oneHourInterval = '1h';
@@ -76,24 +76,25 @@ function MainChartStock(props) {
                             'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
                          }
             });
-            const entries = Object.entries(data.items);
-            console.log(entries);
-            let date = new Date(entries[entries.length-1][1].date);
-            console.log(date);
-            // date.setDate(date.getDate() - paramDistance);
-            console.log(date.setDate(date.getDate() - paramDistance));
+            const entries = [Object.entries(data.items)]; // Array of array with data about point
 
+            let dateRange = Math.floor((Date.now() / 1000) - paramDistance); // Number(timestamp) of range between current and point which is need
 
+            let resData = [];
 
-
-            let res = entries.slice(entries.length - paramDistance, 1);
+            console.log(entries[0]);
+            entries[0].forEach((currentElement)=>{
+                if (currentElement[0] > dateRange){   // loop with generation necessary count of data point RETURN ARRAY with data
+                    resData.push(currentElement);
+                }
+            });
 
             setChartData({
-                labels: res.map((item)=>(item[1].date)),
+                labels: resData.map((item)=>(item[1].date)), // ARRAY this is signs of date in bottom of diagram
                 datasets: [
                     {
-                        label: props.name,
-                        data: res.map((item)=>(item[1].close)),
+                        label: props.name, // STRING name of ticker
+                        data: resData.map((item)=>(item[1].close)), // ARRAY of date-points on diagram
                         fill:true,
                         borderColor:"rgb(255,99,132)",
                         backgroundColor:"rgba(255.99.132,0.3)"

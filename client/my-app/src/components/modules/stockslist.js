@@ -27,7 +27,6 @@ function StocksList(){
                         <div className="list_cart">cart</div>
                         <div className="list_favourite">favourite</div>
                     </div></div>)}
-            <StockTiker></StockTiker>
         </div>
 
     )
