@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import MainChart from "./modules/mainchart";
-import Performance from "./modules/performance";
-import  { ApiTicker } from './modules/apiticker';
+import MainChart from "./modules/crypto/mainchart";
+import Performance from "./modules/crypto/performance";
+import  { ApiTicker } from './modules/crypto/apiticker';
 import Header from "./modules/header";
 import './style/maindashboard.css';
 

@@ -1,0 +1,48 @@
+.main-profile{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+
+}
+.main-profile-detail{
+    display: flex;
+    flex-direction:column;
+    align-items: flex-start;
+
+}
+.business-summary{
+    text-align: start;
+}
+.title-profile{
+    color: #131722;
+    display: flex;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 17px;
+    margin-bottom: 8px;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+}
+.website,.country,.industry,.sector,.employee{
+    display: flex;
+    align-items:center;
+    width: 100%;
+    margin-bottom: 10px;
+
+}
+.website-data,.country-data,.industry-data,.sector-data,.employee-data{
+    align-self: baseline;
+    color: #131722;
+    font-size: 14px;
+    line-height: 18px;
+    margin-left: 5px;
+}
+.website-title,.country-title,.industry-title,.sector-title,.employee-title{
+    display: flex;
+    align-items: center;
+    color: #787b86;
+    font-size: 14px;
+    letter-spacing: .4px;
+    line-height: 16px;
+    text-transform: uppercase;
+}

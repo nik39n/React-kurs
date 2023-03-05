@@ -1,0 +1,191 @@
+.main-dashboard{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+
+}
+.block-name {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 12px;
+
+}
+.ticker-head{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction:row;
+    padding: 12px 0;
+
+}
+.ticker-icon{
+    border-radius: 50%;
+    flex: none;
+    overflow: hidden;
+    margin-right: 8px;
+    width: 24px;
+}
+.ticker-name{
+    color: #131722;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.company-name{
+    font-size: 12px;
+    margin-right: 2px;
+    overflow: hidden;
+    text-overflow: inherit;
+    word-break: break-word;
+}
+.company-name__link{
+    text-decoration: none;
+    color: #000;
+
+}
+.company-name__link:hover{
+    color: #1e53e5;
+}
+.dotwrap{
+    background-color: #9598a1;
+    border-radius: 50%;
+    height: 3px;
+    width: 3px;
+    margin: 0 6px;
+}
+.market-name{
+    font-size: 12px;
+    line-height: 17px;
+    color: #131722;
+}
+.sector-name{
+    padding: 2px 0;
+    font-size: 12px;
+    line-height: 17px;
+    color: #9598a1;
+}
+.ticker-description{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+}
+.description-main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 0;
+}
+.block-main{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.main-stat{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 12px;
+
+}
+.price{
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+
+}
+.live-price{
+    color: #131722;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 35px;
+}
+.price-currency{
+    color: #131722;
+    font-weight: 600;
+    height: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    justify-content: center;
+    line-height: 14px;
+    margin-left: 4px;
+    margin-right: 8px;
+}
+.changed-price__24h{
+    color: #000;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    unicode-bidi: bidi-override;
+}
+.changed-price__24h-percentage {
+    color: #000;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    unicode-bidi: bidi-override;
+
+}
+.changed-price__24h--plus{
+    color: #22ab94;
+}
+.changed-price__24h--minus{
+    color: #f23645;
+}
+.changed-price__24h--neutral{
+    color: #000000;
+}
+.work-time{
+    display: flex;
+    align-items: center;
+}
+.marker_market{
+    border-radius: 3px;
+    height: 6px;
+    margin-right: 4px;
+    width: 6px;
+    background-color: #089981;
+}
+.work-time-status{
+    color: #089981;
+    font-size: 11px;
+    line-height: 13px;
+    margin-right: 8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.title_key-stat{
+    color: #131722;
+    display: flex;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    margin-bottom: 8px;
+    justify-content: flex-start;
+
+
+}
+.main_key-stat{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+.high-price,.low-price,.volume{
+    color: #787b86;
+    font-size: 11px;
+    letter-spacing: .4px;
+    line-height: 16px;
+    text-transform: uppercase;
+}

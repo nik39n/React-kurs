@@ -2,8 +2,8 @@ import React, {useEffect, useState} from "react";
 import './style/mainpage.css';
 import Header from "./modules/header";
 import {Link, useParams} from "react-router-dom";
-import Cryptolist from "./modules/cryptolist";
-import StocksList from "./modules/stockslist";
+import Cryptolist from "./modules/crypto/cryptolist";
+import StocksList from "./modules/stocks/stockslist";
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';

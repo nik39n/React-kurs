@@ -1,0 +1,132 @@
+.list_crypto_items{
+    display: flex;
+    flex-direction: column;
+
+}
+.list_item{
+    all: unset;
+    text-decoration: none;
+    display: flex;
+    padding: 20px;
+    min-width: 0px;
+    color: rgb(30, 35, 41);
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+}
+.list_item:hover{
+    cursor:pointer;
+    background-color: rgb(245, 245, 245);
+}
+.icon_title{
+    all: unset;
+    text-decoration: none;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.icon_title>img{
+    width: 40px;
+    border-radius: 20px;
+}
+.icon_title>a{
+    text-decoration: none;
+    padding: 20px;
+    min-width: 0px;
+    color: rgb(30, 35, 41);
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+}
+.main_info{
+    all: unset;
+    text-decoration: none;
+
+
+}
+.cart{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.svg_icon{
+    fill: none;
+}
+.svg_icon_black{
+    fill: #000000;
+}
+.svg_icon_white{
+    fill: rgba(11, 46, 19, 0);
+}
+.list_item_link{
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #707A8A;
+}
+.svg_icon_black:hover{
+    transition: 0.15s;
+    fill: rgb(84, 84, 84);
+    stroke: rgb(84, 84, 84);
+}
+
+.svg_icon_main:hover{
+    cursor: pointer;
+}
+.ticker_name{
+    font-size: 18px;
+    line-height: 24px;
+    margin-left: 16px;
+    font-weight: 500;
+    color: #1E2329;
+    margin-bottom: 2px;
+}
+.ticker_stream{
+    display: flex;
+    justify-content: flex-start;
+    color: #1E2329;
+    color: #1E2329;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    font-weight: 400;
+}
+.ticker_stream_change{
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    text-decoration: none;
+    color: #1E2329;
+    line-height: 24px;
+    text-overflow: ellipsis;
+    font-weight: 500;
+}
+.ticker_stream_volume{
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    line-height: 24px;
+    color: #1E2329;
+}
+.loading-header{
+    margin-top: 150px;
+}
+.loading{
+    margin: 0;
+    padding: 0;
+
+}
+/*@media screen and (max-width: 1024px) and (min-width: 769px){*/
+/*    .list_crypto_items{*/
+/*        max-width: 769px;*/
+/*    }*/
+/*    .list_item{*/
+/*        max-width: 769px;*/
+
+/*    }*/
+/*    ..list_crypto_items_of_actives{*/
+/*        width: 769px;*/
+/*        margin-right: 0;*/
+/*    }*/
+/*}*/

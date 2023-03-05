@@ -1,8 +1,8 @@
 import './App.css';
-import MainChart from './components/modules/mainchart';
+import MainChart from './components/modules/crypto/mainchart';
 import MainDashboard from "./components/maindashboard";
 import MainDashboardStock from "./components/maindashboardstock";
-import {ApiTicker} from "./components/modules/apiticker";
+import {ApiTicker} from "./components/modules/crypto/apiticker";
 import MainPage from "./components/mainpage";
 import Favourite from "./components/favourite";
 import {Route, Redirect, Switch} from "react-router-dom";
