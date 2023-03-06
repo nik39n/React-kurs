@@ -11,6 +11,10 @@ function StocksList(){
     const [isLoading, setIsLoading] = useState(true);
     const [priceNow, setPriceNow] = useState();
 
+    const [entries, setEntries] = useState();
+
+    const [dataFromDB, setDataFromDB] = useState([]);
+    const [dataFromAPI, setDataFromAPI] = useState();
 
     const [cookies, setCookie] = useCookies([]);
 
@@ -47,32 +51,72 @@ function StocksList(){
         }
     };
 
-    useEffect(()=>{
-        const fetchData = async () => {
-            let data1 = await axios.get(`http://localhost/stocks`);
-            const { apiStockTicker } = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/hi/history/${props.name}/1d`,{
-                headers: {
-                    'X-RapidAPI-Key': 'a942a5b67cmshc18c7032bf748c5p10d81ajsn760c27013e41',
-                    'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
-                }
-            });
-            // setPriceNow(apiStockTicker.data.financialData.currentPrice.raw);
-            setFinancialInfo(apiStockTicker);
-            const entries = [Object.entries(data.items)]; // Array of array with data about all points
-            setEntries(entries);
+    // useEffect(()=>{
+    //     // Fetch data from database
+    //     axios.get(`http://localhost/stocks`)
+    //         .then(response => {
+    //             setDataFromDB(response.data);
+    //
+    //             // Use the data to make API requests
+    //     const promises = [];
+    //     for (let i = 0; i < response.data.length; i++) {
+    //         promises.push(axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/hi/history/${response.data[i].name}/1d`,{
+    //             headers: {
+    //                 'X-RapidAPI-Key': '3cf983a538msh53edce89c4c83b6p1e2d74jsn4bdc62fb8b6c',
+    //                 'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
+    //             }
+    //         }));
+    //     }
+    //
+    //     Promise.all(promises)
+    //         .then(apiResponses => {
+    //             setDataFromAPI(apiResponses.map(response => response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]]));
+    //         }).catch(error => console.log(error));
+    //     }).catch(error => console.log(error));
+    //
+    //     // const entries = [Object.entries(dataFromAPI.items)]; // Array of array with data about all points
+    //     // setEntries(entries);
+    // },[])
 
-            setDbdata(data1.data);
-            setIsLoading(false);
-
-        }
-        console.log(dbdata);
-        fetchData();
-    },[])
+    // useEffect(()=>{
+    //     const fetchDataDB = async () => {
+    //         let data1 = await
+    //
+    //         setDbdata(data1.data);
+    //
+    //     }
+    //
+    //     fetchDataDB();
+    //     console.log(dbdata);
+    //     // fetchDataApi();
+    // },[]);
+    //
+    // useEffect(()=>{
+    //     const fetchDataApi = async (tickerName) =>{
+    //         const { apiStockTicker } = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/hi/history/${tickerName}/1d`,{
+    //             headers: {
+    //                 'X-RapidAPI-Key': 'a942a5b67cmshc18c7032bf748c5p10d81ajsn760c27013e41',
+    //                 'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
+    //             }
+    //         });
+    //         // setPriceNow(apiStockTicker.data.financialData.currentPrice.raw);
+    //         // setFinancialInfo(apiStockTicker);
+    //         // const entries = [Object.entries(data.items)]; // Array of array with data about all points
+    //         // setEntries(entries);
+    //         return apiStockTicker;
+    //     }
+    //     const apidata = dbdata ? dbdata.map((item => {
+    //         fetchDataApi(item.name);
+    //     })) : 0;
+    //     setApiData(apidata);
+    //     console.log(apidata);
+    //
+    // },[])
     return(
+
         <Row className='list_stock_items'>
             <Col xl={12} lg={12} md={12} sm={12} xs={12}>
-                {isLoading ? <h1 className="loading-header">Loading...</h1>:
-                    dbdata.map(element => <Row className="list_item d-flex align-items-center" key={element.name} >
+                {dataFromDB.map((element, index ) => <Row className="list_item d-flex align-items-center" key={element.name} >
                         <Col xl={5} lg={5} md={6} sm={6} xs={7} >
                             <Link className='icon_title col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2' to={"/ticker-details-stock/"+element.name.trim()} key={element.name}>
                                 <img src={element.img} alt=""/>
@@ -83,8 +127,9 @@ function StocksList(){
                         <Col xl={{span: 5}} lg={{span: 5}} md={4} sm={3} xs={2}>
                             <Link className='main_info col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8' to={"/ticker-details-stock/"}>
                                 <Row>
-                                    <Col xl={6} lg={6} md={6} sm={6} xs={6} className="ticker_stream" valueiconticker={element.name}>{entries ? entries[0][(entries[0].length)-2][1].high :<p className="loading">Loading...</p>}</Col>
-                                    <Col xl={6} lg={6} md={6} sm={6} xs={6} className="ticker_stream_volume d-none d-md-block ps-xl-5 ps-lg-5 ps-md-5 ps-sm-5" valueicontickertrades={element.name}>{entries ? entries[0][(entries[0].length)-2][1].volume: <p className="loading">Loading...</p>}</Col>
+                                    {/*<div>{apiData?apiData:'load'}</div>*/}
+                                    <Col xl={6} lg={6} md={6} sm={6} xs={6} className="ticker_stream" valueiconticker={element.name}>{dataFromAPI ? dataFromAPI[index].close: <p className="loading">Loading...</p>}</Col>
+                                    <Col xl={6} lg={6} md={6} sm={6} xs={6} className="ticker_stream_volume d-none d-md-block ps-xl-5 ps-lg-5 ps-md-5 ps-sm-5" valueicontickertrades={element.name}>{dataFromAPI ? dataFromAPI[index].volume: <p className="loading">Loading...</p>}</Col>
                                 </Row>
                             </Link>
                         </Col>
@@ -96,7 +141,8 @@ function StocksList(){
                                 </svg>
                             </div>
                         </Col>
-                    </Row>)}
+                    </Row>)
+                }
             </Col>
         </Row>
         // <div>
