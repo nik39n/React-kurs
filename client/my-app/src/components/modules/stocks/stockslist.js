@@ -51,67 +51,31 @@ function StocksList(){
         }
     };
 
-    // useEffect(()=>{
-    //     // Fetch data from database
-    //     axios.get(`http://localhost/stocks`)
-    //         .then(response => {
-    //             setDataFromDB(response.data);
-    //
-    //             // Use the data to make API requests
-    //     const promises = [];
-    //     for (let i = 0; i < response.data.length; i++) {
-    //         promises.push(axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/hi/history/${response.data[i].name}/1d`,{
-    //             headers: {
-    //                 'X-RapidAPI-Key': '3cf983a538msh53edce89c4c83b6p1e2d74jsn4bdc62fb8b6c',
-    //                 'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
-    //             }
-    //         }));
-    //     }
-    //
-    //     Promise.all(promises)
-    //         .then(apiResponses => {
-    //             setDataFromAPI(apiResponses.map(response => response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]]));
-    //         }).catch(error => console.log(error));
-    //     }).catch(error => console.log(error));
-    //
-    //     // const entries = [Object.entries(dataFromAPI.items)]; // Array of array with data about all points
-    //     // setEntries(entries);
-    // },[])
+    useEffect(()=>{
+        // Fetch data from database
+        axios.get(`http://localhost/stocks`)
+            .then(response => {
+                setDataFromDB(response.data);
 
-    // useEffect(()=>{
-    //     const fetchDataDB = async () => {
-    //         let data1 = await
-    //
-    //         setDbdata(data1.data);
-    //
-    //     }
-    //
-    //     fetchDataDB();
-    //     console.log(dbdata);
-    //     // fetchDataApi();
-    // },[]);
-    //
-    // useEffect(()=>{
-    //     const fetchDataApi = async (tickerName) =>{
-    //         const { apiStockTicker } = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/hi/history/${tickerName}/1d`,{
-    //             headers: {
-    //                 'X-RapidAPI-Key': 'a942a5b67cmshc18c7032bf748c5p10d81ajsn760c27013e41',
-    //                 'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
-    //             }
-    //         });
-    //         // setPriceNow(apiStockTicker.data.financialData.currentPrice.raw);
-    //         // setFinancialInfo(apiStockTicker);
-    //         // const entries = [Object.entries(data.items)]; // Array of array with data about all points
-    //         // setEntries(entries);
-    //         return apiStockTicker;
-    //     }
-    //     const apidata = dbdata ? dbdata.map((item => {
-    //         fetchDataApi(item.name);
-    //     })) : 0;
-    //     setApiData(apidata);
-    //     console.log(apidata);
-    //
-    // },[])
+                // Use the data to make API requests
+        const promises = [];
+        for (let i = 0; i < response.data.length; i++) {
+            promises.push(axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/hi/history/${response.data[i].name}/1d`,{
+                headers: {
+                    'X-RapidAPI-Key': '3cf983a538msh53edce89c4c83b6p1e2d74jsn4bdc62fb8b6c',
+                    'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
+                }
+            }));
+        }
+
+        Promise.all(promises)
+            .then(apiResponses => {
+                setDataFromAPI(apiResponses.map(response => [response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]],response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 2]]]));
+            }).catch(error => console.log(error));
+        }).catch(error => console.log(error));
+
+    },[])
+
     return(
 
         <Row className='list_stock_items'>
@@ -128,8 +92,9 @@ function StocksList(){
                             <Link className='main_info col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8' to={"/ticker-details-stock/"}>
                                 <Row>
                                     {/*<div>{apiData?apiData:'load'}</div>*/}
-                                    <Col xl={6} lg={6} md={6} sm={6} xs={6} className="ticker_stream" valueiconticker={element.name}>{dataFromAPI ? dataFromAPI[index].close: <p className="loading">Loading...</p>}</Col>
-                                    <Col xl={6} lg={6} md={6} sm={6} xs={6} className="ticker_stream_volume d-none d-md-block ps-xl-5 ps-lg-5 ps-md-5 ps-sm-5" valueicontickertrades={element.name}>{dataFromAPI ? dataFromAPI[index].volume: <p className="loading">Loading...</p>}</Col>
+                                    <Col xl={4} lg={4} md={4} sm={4} xs={4} className="ticker_stream" valueiconticker={element.name}>{dataFromAPI ? dataFromAPI[index][0].close : <p className="loading">Loading...</p>}</Col>
+                                    <Col xl={4} lg={4} md={4} sm={4} xs={4} className="ticker_stream_change" valueicontickerchange={element.name}>{dataFromAPI ? ` ${Math.floor( (((dataFromAPI[index][0].close)-(dataFromAPI[index][1].close))*100/(dataFromAPI[index][1].close)) * 100) / 100}%`:<p className="loading">Loading...</p>}</Col>
+                                    <Col xl={4} lg={4} md={4} sm={4} xs={4} className="ticker_stream_volume d-none d-md-block ps-xl-5 ps-lg-5 ps-md-5 ps-sm-5" valueicontickertrades={element.name}>{dataFromAPI ? dataFromAPI[index][0].volume : <p className="loading">Loading...</p>}</Col>
                                 </Row>
                             </Link>
                         </Col>
