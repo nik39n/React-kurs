@@ -12,6 +12,7 @@ import Col from 'react-bootstrap/Col';
 
 function MainPage () {
  const params = useParams();
+ const [searchInputData, setSearchInputData] = useState('');
  const [searchInput, setSearchInput] = useState("");
  const [priceFilter, setPriceFilter] = useState();
  const [nameFilter, setNameFilter] = useState();
@@ -19,27 +20,33 @@ function MainPage () {
  const [tradesFilter, setTradesFilter] = useState();
  const [childData , setChildData] = useState('');
  const [dataToList, setDataToList] = useState();
+
+ const handleInputChange = (e) => {
+     setSearchInputData(e.target.value);
+     console.log(searchInputData);
+ }
+
  const childToParent = (childData) => {
     setChildData(childData);
  }
- const handleChange = (e) => {
-    setSearchInput(e.target.value);
-     let arr = [];
-     childData.forEach((element)=>{
-         let ticker = Object.keys(element);
-         let name = Object.values(element);
-         if (ticker[0].toLowerCase().match((e.target.value).toLowerCase()) || name[0].toLowerCase().match((e.target.value).toLowerCase())){
-             arr.push(element);
-         }
-     });
-     // childData.filter((country) => {
-     //     if(country.match(e.target.value)!= null){
-     //         arr.push(country.match(e.target.value));
-     //
-     //     };
-     // });
-     setDataToList(arr);
- };
+    const handleChange = (e) => {
+        setSearchInput(e.target.value);
+        let arr = [];
+        childData.forEach((element)=>{
+            let ticker = Object.keys(element);
+            let name = Object.values(element);
+            if (ticker[0].toLowerCase().match((e.target.value).toLowerCase()) || name[0].toLowerCase().match((e.target.value).toLowerCase())){
+                arr.push(element);
+            }
+        });
+        // childData.filter((country) => {
+        //     if(country.match(e.target.value)!= null){
+        //         arr.push(country.match(e.target.value));
+        //
+        //     };
+        // });
+        setDataToList(arr);
+    };
      const handelName = (e) => {
          if (nameFilter == undefined){
              setNameFilter(true);
@@ -157,7 +164,8 @@ function MainPage () {
                         <h1>{params.typeActives.toUpperCase()}</h1>
                     </Col>
                     <Col xl={{span:2, offset: 8}} lg={{span:2, offset:8}} md={{span:4,offset:4}} sm={{span:4,offset:4}} xs={{span:12}}  className="search">
-                        <input type="text" placeholder="Search" onChange={handleChange} value={searchInput} className="search_input"/>
+                        {params.typeActives == "crypto" ? <input type="text" placeholder="Search" onChange={handleChange} value={searchInput} className="search_input"/> :
+                            <input type="text" placeholder="Search" onChange={handleInputChange} value={searchInputData} className="search_input"/>}
                     </Col>
                 </Row>
                 <Row className="list_of_actives">
@@ -169,7 +177,8 @@ function MainPage () {
                         <Col xl={{span:2}} lg={{span:2}} md={{span:1}} sm={{span:1}} xs={{span:0}} ></Col>
                     </Row>
                     {
-                        params.typeActives == "crypto" ? <Cryptolist parentToChildInput={dataToList} parentToChildFilterName={nameFilter} parentToChildFilterPrice={priceFilter} parentToChildFilterChange={changeFilter} parentToChildFilterTrades={tradesFilter}  childToParent={childToParent}></Cryptolist> : <StocksList></StocksList>
+                        params.typeActives == "crypto" ? <Cryptolist parentToChildInput={dataToList} parentToChildFilterName={nameFilter} parentToChildFilterPrice={priceFilter} parentToChildFilterChange={changeFilter} parentToChildFilterTrades={tradesFilter}  childToParent={childToParent}></Cryptolist>
+                            : <StocksList searchInput={searchInputData} parentToChildInput={dataToList} parentToChildFilterName={nameFilter} parentToChildFilterPrice={priceFilter} parentToChildFilterChange={changeFilter} parentToChildFilterTrades={tradesFilter}  childToParent={childToParent}></StocksList>
                     }
                 </Row>
             </Container>
