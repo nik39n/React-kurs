@@ -6,15 +6,15 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import {useCookies} from "react-cookie";
 
-function StocksList(){
-    const [dbdata, setDbdata] = useState();
-    const [isLoading, setIsLoading] = useState(true);
-    const [priceNow, setPriceNow] = useState();
+function StocksList({searchInput,childToParent,parentToChildInput,parentToChildFilterName,parentToChildFilterPrice,parentToChildFilterChange,parentToChildFilterTrades}){
 
-    const [entries, setEntries] = useState();
 
     const [dataFromDB, setDataFromDB] = useState([]);
+    const [dataFromDBMain, setDataFromDBMain] = useState([]);
+
     const [dataFromAPI, setDataFromAPI] = useState();
+
+    const [searchQuery, setSearchQuery] = useState(searchInput);
 
     const [cookies, setCookie] = useCookies([]);
 
@@ -52,29 +52,36 @@ function StocksList(){
     };
 
     useEffect(()=>{
-        // Fetch data from database
-        axios.get(`http://localhost/stocks`)
-            .then(response => {
-                setDataFromDB(response.data);
+            // Fetch data from database
+            axios.get(`http://localhost/stocks`)
+                .then(response => {setDataFromDB(response.data)
+                    setDataFromDBMain(response.data)
 
-                // Use the data to make API requests
-        const promises = [];
-        for (let i = 0; i < response.data.length; i++) {
-            promises.push(axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/hi/history/${response.data[i].name}/1d`,{
-                headers: {
-                    'X-RapidAPI-Key': '3cf983a538msh53edce89c4c83b6p1e2d74jsn4bdc62fb8b6c',
-                    'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
-                }
-            }));
-        }
+                    const promises = [];
+                    // for (let i = 0; i < response.data.length; i++) {
+                    //     promises.push(axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/hi/history/${response.data[i].name}/1d`,{
+                    //         headers: {
+                    //             'X-RapidAPI-Key': '3cf983a538msh53edce89c4c83b6p1e2d74jsn4bdc62fb8b6c',
+                    //             'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
+                    //         }
+                    //     }));
+                    // }
 
-        Promise.all(promises)
-            .then(apiResponses => {
-                setDataFromAPI(apiResponses.map(response => [response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]],response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 2]]]));
-            }).catch(error => console.log(error));
-        }).catch(error => console.log(error));
+                    // Promise.all(promises)
+                    //     .then(apiResponses => {
+                    //         setDataFromAPI(apiResponses.map(response => [response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]],response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 2]]]));
+                    //     }).catch(error => console.log(error));
+                    }).catch(error => console.log(error));
 
-    },[])
+    },[]);
+
+    useEffect(()=>{
+        let res = dataFromDBMain.filter(item => {
+            return item.full_name.toLowerCase().includes(searchInput?.toLowerCase());
+        });
+        console.log(res);
+        setDataFromDB(res);
+    },[searchInput]);
 
     return(
 
