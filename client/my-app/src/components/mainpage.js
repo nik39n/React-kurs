@@ -170,9 +170,9 @@ function MainPage () {
                 </Row>
                 <Row className="list_of_actives">
                     <Row className="filters">
-                        <Col xl={{span:3}}  lg={{span:3}} md={{span:4}} sm={{span:6}}  xs={{span:7}}onClick={handelName} className="filter_item filter_item_name"><p className="filter_item_wrapper">Name</p></Col>
+                        <Col xl={{span:5}}  lg={{span:3}} md={{span:4}} sm={{span:6}}  xs={{span:7}}onClick={handelName} className="filter_item filter_item_name"><p className="filter_item_wrapper">Name</p></Col>
                         <Col xl={{span:2}}  lg={{span:2}} md={{span:2}} sm={{span:2}} xs={{span:2}} onClick={handelPrice} className="filter_item filter_item_price"><p className="filter_item_wrapper">Price</p></Col>
-                        <Col xl={{span:3}}  lg={{span:3}} md={{span:2}} sm={{span:2}} xs={{span:2}} onClick={handelChange} className="filter_item filter_item_change"><p className="filter_item_wrapper">24h/Change</p></Col>
+                        <Col xl={{span:2}}  lg={{span:3}} md={{span:2}} sm={{span:2}} xs={{span:2}} onClick={handelChange} className="filter_item filter_item_change"><p className="filter_item_wrapper">24h/Change</p></Col>
                         <Col xl={{span:2}}  lg={{span:2}} md={{span:2}} onClick={handelTrades} className="filter_item filter_item_trades d-none d-md-flex pe-xl-5 pe-md-3"><p className="filter_item_wrapper">Trades</p></Col>
                         <Col xl={{span:2}} lg={{span:2}} md={{span:1}} sm={{span:1}} xs={{span:0}} ></Col>
                     </Row>

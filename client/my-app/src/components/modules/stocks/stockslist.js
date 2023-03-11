@@ -12,6 +12,8 @@ function StocksList({searchInput,childToParent,parentToChildInput,parentToChildF
     const [dataFromDB, setDataFromDB] = useState([]);
     const [dataFromDBMain, setDataFromDBMain] = useState([]);
 
+    const[render,setRender] = useState('');
+
     const [dataFromAPI, setDataFromAPI] = useState();
 
     const [searchQuery, setSearchQuery] = useState(searchInput);
@@ -54,40 +56,137 @@ function StocksList({searchInput,childToParent,parentToChildInput,parentToChildF
     useEffect(()=>{
             // Fetch data from database
             axios.get(`http://localhost/stocks`)
-                .then(response => {setDataFromDB(response.data)
-                    setDataFromDBMain(response.data)
+                .then(response => {
+                    // setDataFromDB(response.data)
+                    // setDataFromDBMain(response.data)
+                    let originalData = response.data;
 
                     const promises = [];
                     // for (let i = 0; i < response.data.length; i++) {
                     //     promises.push(axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/hi/history/${response.data[i].name}/1d`,{
                     //         headers: {
-                    //             'X-RapidAPI-Key': '3cf983a538msh53edce89c4c83b6p1e2d74jsn4bdc62fb8b6c',
+                    //             'X-RapidAPI-Key': '2ec4802eadmsh150ba6db791b984p1420a0jsn3ce76c9e86c1',
                     //             'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
                     //         }
                     //     }));
                     // }
-
+                    //
                     // Promise.all(promises)
                     //     .then(apiResponses => {
-                    //         setDataFromAPI(apiResponses.map(response => [response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]],response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 2]]]));
+                    //         setDataFromDB(apiResponses.map((response,index) => {
+                    //             return {
+                    //                 ...originalData[index],
+                    //                 priceNow: response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]].close,
+                    //                 volume: response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]].volume,
+                    //                 changePrice: Math.floor( (((response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]].close)-(response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 2]].close))*100/(response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 2]].close)) * 100) / 100
+                    //             }
+                    //         }));
+                    //         setDataFromDBMain(apiResponses.map((response,index) => {
+                    //           return {
+                    //                ...originalData[index],
+                    //                priceNow: response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]].close,
+                    //                volume: response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]].volume,
+                    //                changePrice: Math.floor( (((response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]].close)-(response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 2]].close))*100/(response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 2]].close)) * 100) / 100
+                    //            }
+                    //        }));
                     //     }).catch(error => console.log(error));
                     }).catch(error => console.log(error));
 
     },[]);
 
     useEffect(()=>{
-        let res = dataFromDBMain.filter(item => {
-            return item.full_name.toLowerCase().includes(searchInput?.toLowerCase());
-        });
-        console.log(res);
-        setDataFromDB(res);
+
+        if (searchInput != ''){
+            let res = dataFromDBMain.filter(item => {
+                return item.full_name.toLowerCase().includes(searchInput?.toLowerCase());
+            });
+            console.log(res);
+            setDataFromDB(res);
+        }
+        if (searchInput == ''){
+            setDataFromDB(dataFromDBMain);
+
+        }
+
     },[searchInput]);
+
+    useEffect(()=>{
+            if (parentToChildFilterName == true){
+                let arr = [...dataFromDB];
+                const propComparator = (propName) =>
+                    (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
+                arr.sort(propComparator('full_name'));
+                setDataFromDB(arr);
+            }
+            if (parentToChildFilterName == false) {
+                let arr = [...dataFromDB];
+                const propComparator = (propName) =>
+                    (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
+                arr.sort(propComparator('full_name'));
+                setDataFromDB(arr);
+
+            }
+    },[parentToChildFilterName])
+
+    useEffect(()=>{
+        if (parentToChildFilterPrice == true){
+            let arr = [...dataFromDB];
+            const propComparator = (propName) =>
+                (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
+            arr.sort(propComparator('priceNow'));
+            setDataFromDB(arr);
+        }
+        if (parentToChildFilterPrice == false) {
+            let arr = [...dataFromDB];
+            const propComparator = (propName) =>
+                (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
+            arr.sort(propComparator('priceNow'));
+            setDataFromDB(arr);
+
+        }
+    },[parentToChildFilterPrice])
+
+    useEffect(()=>{
+        if (parentToChildFilterChange == true){
+            let arr = [...dataFromDB];
+            const propComparator = (propName) =>
+                (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
+            arr.sort(propComparator('changePrice'));
+            setDataFromDB(arr);
+        }
+        if (parentToChildFilterChange == false) {
+            let arr = [...dataFromDB];
+            const propComparator = (propName) =>
+                (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
+            arr.sort(propComparator('changePrice'));
+            setDataFromDB(arr);
+
+        }
+    },[parentToChildFilterChange])
+
+    useEffect(()=>{
+        if (parentToChildFilterTrades == true){
+            let arr = [...dataFromDB];
+            const propComparator = (propName) =>
+                (a, b) => a[propName] == b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
+            arr.sort(propComparator('volume'));
+            setDataFromDB(arr);
+        }
+        if (parentToChildFilterTrades == false) {
+            let arr = [...dataFromDB];
+            const propComparator = (propName) =>
+                (a, b) => a[propName] == b[propName] ? 0 : a[propName] > b[propName] ? -1 : 1
+            arr.sort(propComparator('volume'));
+            setDataFromDB(arr);
+
+        }
+    },[parentToChildFilterTrades])
 
     return(
 
         <Row className='list_stock_items'>
             <Col xl={12} lg={12} md={12} sm={12} xs={12}>
-                {dataFromDB.map((element, index ) => <Row className="list_item d-flex align-items-center" key={element.name} >
+                {dataFromDB.length == 0 ? <h1 className="loading-header">Loading...</h1> : dataFromDB.map((element, index ) => <Row className="list_item d-flex align-items-center" key={element.name} >
                         <Col xl={5} lg={5} md={6} sm={6} xs={7} >
                             <Link className='icon_title col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2' to={"/ticker-details-stock/"+element.name.trim()} key={element.name}>
                                 <img src={element.img} alt=""/>
@@ -98,10 +197,11 @@ function StocksList({searchInput,childToParent,parentToChildInput,parentToChildF
                         <Col xl={{span: 5}} lg={{span: 5}} md={4} sm={3} xs={2}>
                             <Link className='main_info col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8' to={"/ticker-details-stock/"}>
                                 <Row>
+                                    {/*{console.log(dataFromAPI)}*/}
                                     {/*<div>{apiData?apiData:'load'}</div>*/}
-                                    <Col xl={4} lg={4} md={4} sm={4} xs={4} className="ticker_stream" valueiconticker={element.name}>{dataFromAPI ? dataFromAPI[index][0].close : <p className="loading">Loading...</p>}</Col>
-                                    <Col xl={4} lg={4} md={4} sm={4} xs={4} className="ticker_stream_change" valueicontickerchange={element.name}>{dataFromAPI ? ` ${Math.floor( (((dataFromAPI[index][0].close)-(dataFromAPI[index][1].close))*100/(dataFromAPI[index][1].close)) * 100) / 100}%`:<p className="loading">Loading...</p>}</Col>
-                                    <Col xl={4} lg={4} md={4} sm={4} xs={4} className="ticker_stream_volume d-none d-md-block ps-xl-5 ps-lg-5 ps-md-5 ps-sm-5" valueicontickertrades={element.name}>{dataFromAPI ? dataFromAPI[index][0].volume : <p className="loading">Loading...</p>}</Col>
+                                    <Col xl={4} lg={4} md={4} sm={4} xs={4} className="ticker_stream" valueiconticker={element.name}>{element.priceNow ? element.priceNow : <p className="loading">Loading...</p>}</Col>
+                                    <Col xl={4} lg={4} md={4} sm={4} xs={4} className="ticker_stream_change" valueicontickerchange={element.name}>{element.changePrice ? ` ${element.changePrice}%`:<p className="loading">Loading...</p>}</Col>
+                                    <Col xl={4} lg={4} md={4} sm={4} xs={4} className="ticker_stream_volume d-none d-md-block ps-xl-5 ps-lg-5 ps-md-5 ps-sm-5" valueicontickertrades={element.name}>{element.volume ? element.volume : <p className="loading">Loading...</p>}</Col>
                                 </Row>
                             </Link>
                         </Col>
