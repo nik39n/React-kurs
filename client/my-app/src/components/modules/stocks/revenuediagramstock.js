@@ -15,13 +15,13 @@ function RevenueDiagramStock(props){
         const fetchData = async () => {
             let dataNetIncome = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/qu/quote/${props.name}/cashflow-statement`,{
                 headers:{
-                    'X-RapidAPI-Key': 'a942a5b67cmshc18c7032bf748c5p10d81ajsn760c27013e41',
+                    'X-RapidAPI-Key': '2ec4802eadmsh150ba6db791b984p1420a0jsn3ce76c9e86c1',
                     'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
                 }
             });
             let dataRevenue = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/qu/quote/${props.name}/earnings`,{
                 headers: {
-                    'X-RapidAPI-Key': 'a942a5b67cmshc18c7032bf748c5p10d81ajsn760c27013e41',
+                    'X-RapidAPI-Key': '2ec4802eadmsh150ba6db791b984p1420a0jsn3ce76c9e86c1',
                     'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
                 }
             });
@@ -50,7 +50,7 @@ function RevenueDiagramStock(props){
             });
             setIsLoading(false);
         }
-        // fetchData();
+        fetchData();
     },[])
 
 

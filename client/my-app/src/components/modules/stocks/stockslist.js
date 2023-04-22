@@ -1,20 +1,329 @@
 import {Link, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import StockTiker from "./stocktiker";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import {useCookies} from "react-cookie";
 
-function StocksList({searchInput,childToParent,parentToChildInput,parentToChildFilterName,parentToChildFilterPrice,parentToChildFilterChange,parentToChildFilterTrades}){
+function StocksList({searchInput,parentToChildFilterName,parentToChildFilterPrice,parentToChildFilterChange,parentToChildFilterTrades}){
 
 
     const [dataFromDB, setDataFromDB] = useState([]);
     const [dataFromDBMain, setDataFromDBMain] = useState([]);
 
-    const[render,setRender] = useState('');
 
-    const [dataFromAPI, setDataFromAPI] = useState();
+    const [dataFromAPI, setDataFromAPI] = useState(
+        [
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287222,
+                    "open": 153.7,
+                    "high": 153.1,
+                    "low": 152.3,
+                    "close": 152.44,
+                    "volume": 6431577,
+                    "adjclose": 152.44
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 153.7,
+                    "high": 154.03,
+                    "low": 151.13,
+                    "close": 151.6,
+                    "volume": 56127900,
+                    "adjclose": 151.6
+                }
+            ],
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287202,
+                    "open": 60.04,
+                    "high": 60.13,
+                    "low": 59.96,
+                    "close": 60.11,
+                    "volume": 761638,
+                    "adjclose": 60.11
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 60.49,
+                    "high": 60.57,
+                    "low": 59.75,
+                    "close": 60.01,
+                    "volume": 13960000,
+                    "adjclose": 60.01
+                }
+            ],
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287223,
+                    "open": 191.38,
+                    "high": 186.5,
+                    "low": 181.29,
+                    "close": 181.49,
+                    "volume": 25950741,
+                    "adjclose": 181.49
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 191.38,
+                    "high": 194.2,
+                    "low": 186.1,
+                    "close": 187.71,
+                    "volume": 147668400,
+                    "adjclose": 187.71
+                }
+            ],
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287222,
+                    "open": 234.87,
+                    "high": 236.7,
+                    "low": 234.24,
+                    "close": 236.51,
+                    "volume": 5826141,
+                    "adjclose": 236.51
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 236,
+                    "high": 241.25,
+                    "low": 232.41,
+                    "close": 232.88,
+                    "volume": 51449800,
+                    "adjclose": 232.88
+                }
+            ],
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287222,
+                    "open": 94.06,
+                    "high": 93.74,
+                    "low": 92.66,
+                    "close": 92.72,
+                    "volume": 5442212,
+                    "adjclose": 92.72
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 94.06,
+                    "high": 95.09,
+                    "low": 92.78,
+                    "close": 93.55,
+                    "volume": 49056900,
+                    "adjclose": 93.55
+                }
+            ],
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287220,
+                    "open": 254.04,
+                    "high": 254.54,
+                    "low": 252.21,
+                    "close": 252.25,
+                    "volume": 2151313,
+                    "adjclose": 252.25
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 256.3,
+                    "high": 257.69,
+                    "low": 253.39,
+                    "close": 254.15,
+                    "volume": 21456400,
+                    "adjclose": 254.15
+                }
+            ],
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287222,
+                    "open": 182.87,
+                    "high": 183.72,
+                    "low": 181.43,
+                    "close": 182.05,
+                    "volume": 3384435,
+                    "adjclose": 182.05
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 189,
+                    "high": 190.36,
+                    "low": 184.01,
+                    "close": 184.51,
+                    "volume": 35147300,
+                    "adjclose": 184.51
+                }
+            ],
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287222,
+                    "open": 81.07,
+                    "high": 83.18,
+                    "low": 82.28,
+                    "close": 82.57,
+                    "volume": 7965292,
+                    "adjclose": 82.57
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 81.07,
+                    "high": 84.85,
+                    "low": 80.67,
+                    "close": 82.11,
+                    "volume": 70903700,
+                    "adjclose": 82.11
+                }
+            ],
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287216,
+                    "open": 309.29,
+                    "high": 310.31,
+                    "low": 306.15,
+                    "close": 306.72,
+                    "volume": 423685,
+                    "adjclose": 306.72
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 312.68,
+                    "high": 314.3,
+                    "low": 306.62,
+                    "close": 308.47,
+                    "volume": 4548900,
+                    "adjclose": 308.47
+                }
+            ],
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287222,
+                    "open": 94.12,
+                    "high": 94.85,
+                    "low": 94.13,
+                    "close": 94.57,
+                    "volume": 2933500,
+                    "adjclose": 94.57
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 94.98,
+                    "high": 95.67,
+                    "low": 93.53,
+                    "close": 93.86,
+                    "volume": 27813400,
+                    "adjclose": 93.86
+                }
+            ],
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287221,
+                    "open": 89.52,
+                    "high": 87.73,
+                    "low": 86.45,
+                    "close": 86.94,
+                    "volume": 3044251,
+                    "adjclose": 86.94
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 89.52,
+                    "high": 90.05,
+                    "low": 88.2,
+                    "close": 88.73,
+                    "volume": 14487900,
+                    "adjclose": 88.73
+                }
+            ],
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287221,
+                    "open": 42.38,
+                    "high": 42.58,
+                    "low": 42.03,
+                    "close": 42.24,
+                    "volume": 1319982,
+                    "adjclose": 42.24
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 43.12,
+                    "high": 43.68,
+                    "low": 42.22,
+                    "close": 42.46,
+                    "volume": 13279000,
+                    "adjclose": 42.46
+                }
+            ],
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287223,
+                    "open": 25.56,
+                    "high": 25.65,
+                    "low": 25.51,
+                    "close": 25.61,
+                    "volume": 1977421,
+                    "adjclose": 25.61
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 25.84,
+                    "high": 25.99,
+                    "low": 25.5,
+                    "close": 25.53,
+                    "volume": 43145900,
+                    "adjclose": 25.53
+                }
+            ],
+            [
+                {
+                    "date": "03-08-2023",
+                    "date_utc": 1678287222,
+                    "open": 8.36,
+                    "high": 8.55,
+                    "low": 8.33,
+                    "close": 8.41,
+                    "volume": 7205110,
+                    "adjclose": 8.41
+                },
+                {
+                    "date": "03-07-2023",
+                    "date_utc": 1678199400,
+                    "open": 8.27,
+                    "high": 8.43,
+                    "low": 8.19,
+                    "close": 8.28,
+                    "volume": 26768200,
+                    "adjclose": 8.28
+                }
+            ]
+        ]
+    );
 
     const [searchQuery, setSearchQuery] = useState(searchInput);
 
@@ -70,26 +379,26 @@ function StocksList({searchInput,childToParent,parentToChildInput,parentToChildF
                     //         }
                     //     }));
                     // }
-                    //
-                    // Promise.all(promises)
-                    //     .then(apiResponses => {
-                    //         setDataFromDB(apiResponses.map((response,index) => {
-                    //             return {
-                    //                 ...originalData[index],
-                    //                 priceNow: response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]].close,
-                    //                 volume: response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]].volume,
-                    //                 changePrice: Math.floor( (((response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]].close)-(response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 2]].close))*100/(response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 2]].close)) * 100) / 100
-                    //             }
-                    //         }));
-                    //         setDataFromDBMain(apiResponses.map((response,index) => {
-                    //           return {
-                    //                ...originalData[index],
-                    //                priceNow: response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]].close,
-                    //                volume: response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]].volume,
-                    //                changePrice: Math.floor( (((response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 1]].close)-(response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 2]].close))*100/(response.data.items[Object.keys(response.data.items)[Object.keys(response.data.items).length - 2]].close)) * 100) / 100
-                    //            }
-                    //        }));
-                    //     }).catch(error => console.log(error));
+
+                    Promise.all(promises)
+                        .then(apiResponses => {
+                            setDataFromDB(dataFromAPI.map((response,index) => {
+                                return {
+                                    ...originalData[index],
+                                    priceNow: response[Object.keys(response)[Object.keys(response).length - 1]].close,
+                                    volume: response[Object.keys(response)[Object.keys(response).length - 1]].volume,
+                                    changePrice: Math.floor( (((response[Object.keys(response)[Object.keys(response).length - 1]].close)-(response[Object.keys(response)[Object.keys(response).length - 2]].close))*100/(response[Object.keys(response)[Object.keys(response).length - 2]].close)) * 100) / 100
+                                }
+                            }));
+                            setDataFromDBMain(dataFromAPI.map((response,index) => {
+                              return {
+                                  ...originalData[index],
+                                  priceNow: response[Object.keys(response)[Object.keys(response).length - 1]].close,
+                                  volume: response[Object.keys(response)[Object.keys(response).length - 1]].volume,
+                                  changePrice: Math.floor( (((response[Object.keys(response)[Object.keys(response).length - 1]].close)-(response[Object.keys(response)[Object.keys(response).length - 2]].close))*100/(response[Object.keys(response)[Object.keys(response).length - 2]].close)) * 100) / 100
+                              }
+                           }));
+                        }).catch(error => console.log(error));
                     }).catch(error => console.log(error));
 
     },[]);
@@ -100,7 +409,6 @@ function StocksList({searchInput,childToParent,parentToChildInput,parentToChildF
             let res = dataFromDBMain.filter(item => {
                 return item.full_name.toLowerCase().includes(searchInput?.toLowerCase());
             });
-            console.log(res);
             setDataFromDB(res);
         }
         if (searchInput == ''){
@@ -197,8 +505,7 @@ function StocksList({searchInput,childToParent,parentToChildInput,parentToChildF
                         <Col xl={{span: 5}} lg={{span: 5}} md={4} sm={3} xs={2}>
                             <Link className='main_info col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8' to={"/ticker-details-stock/"}>
                                 <Row>
-                                    {/*{console.log(dataFromAPI)}*/}
-                                    {/*<div>{apiData?apiData:'load'}</div>*/}
+
                                     <Col xl={4} lg={4} md={4} sm={4} xs={4} className="ticker_stream" valueiconticker={element.name}>{element.priceNow ? element.priceNow : <p className="loading">Loading...</p>}</Col>
                                     <Col xl={4} lg={4} md={4} sm={4} xs={4} className="ticker_stream_change" valueicontickerchange={element.name}>{element.changePrice ? ` ${element.changePrice}%`:<p className="loading">Loading...</p>}</Col>
                                     <Col xl={4} lg={4} md={4} sm={4} xs={4} className="ticker_stream_volume d-none d-md-block ps-xl-5 ps-lg-5 ps-md-5 ps-sm-5" valueicontickertrades={element.name}>{element.volume ? element.volume : <p className="loading">Loading...</p>}</Col>
@@ -217,15 +524,6 @@ function StocksList({searchInput,childToParent,parentToChildInput,parentToChildF
                 }
             </Col>
         </Row>
-        // <div>
-        //     {isLoading ? <h1>Loading</h1>:
-        //         dbdata.map(element => <div className="list_item">
-        //             <Link to={"/ticker-details-stock/"+element.trim()} key={element} className="list_item_link" > {element} </Link>
-        //             <div className="cart">
-        //                 <div className="list_cart">cart</div>
-        //                 <div className="list_favourite">favourite</div>
-        //             </div></div>)}
-        // </div>
 
     )
 }

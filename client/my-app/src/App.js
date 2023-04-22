@@ -8,6 +8,7 @@ import Favourite from "./components/favourite";
 import {Route, Redirect, Switch} from "react-router-dom";
 import {Helmet} from "react-helmet";
 import React from "react";
+import HomePage from "./components/homepage";
 
 function App() {
 
@@ -22,7 +23,10 @@ function App() {
         </Helmet>
         <Switch>
             <Route exact path="/">
-                <Redirect to='/main-page/crypto' />
+                <Redirect to='/home-page'/>
+            </Route>
+            <Route exact path="/home-page">
+                <HomePage></HomePage>
             </Route>
             <Route exact path="/main-page">
                 <Redirect to='/main-page/crypto' />

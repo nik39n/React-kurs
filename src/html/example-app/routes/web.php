@@ -19,4 +19,7 @@ Route::get('/', function () {
 });
 Route::get('/crypto', [\App\Http\Controllers\CryptoController::class,'show']);
 Route::get('/stocks', [\App\Http\Controllers\StocksController::class,'show']);
+Route::get('/country',[\App\Http\Controllers\CountryController::class,'show']);
+Route::get('/stocks-cap',[\App\Http\Controllers\StocksController::class,'showcap']);
+
 

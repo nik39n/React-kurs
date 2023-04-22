@@ -34,13 +34,13 @@ function PerformanceStock(props){
         const fetchData = async () => {
             const { data } = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/hi/history/${props.name}/1d`,{
                 headers: {
-                    'X-RapidAPI-Key': 'a942a5b67cmshc18c7032bf748c5p10d81ajsn760c27013e41',
+                    'X-RapidAPI-Key': '2ec4802eadmsh150ba6db791b984p1420a0jsn3ce76c9e86c1',
                     'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
                 }
             });
             let apiStockTicker = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/qu/quote/AAPL/financial-data`,{
                 headers: {
-                    'X-RapidAPI-Key': 'a942a5b67cmshc18c7032bf748c5p10d81ajsn760c27013e41',
+                    'X-RapidAPI-Key': '2ec4802eadmsh150ba6db791b984p1420a0jsn3ce76c9e86c1',
                     'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
                 }
             });
@@ -107,7 +107,7 @@ function PerformanceStock(props){
 
             setIsLoading(false);
         }
-        // fetchData();
+        fetchData();
     },[]);
 
 
@@ -136,33 +136,33 @@ function PerformanceStock(props){
                     </div>
                 </div>
             </div>
-            <p className="performance_title">Performance</p>
-            <div className="performance">
-                <div className={`performance_card one-week ${priceOneWeekPerformance>0 ? " plus" : " minus"}`}>
-                    <p className="performance_pricachange">{priceOneWeekPerformance ? priceOneWeekPerformance : 0}%</p>
-                    <p className="p_interval">1W</p>
-                </div>
-                <div className={`performance_card one-month ${priceOneMonthPerformance>0 ? " plus" : " minus"}`}>
-                    <p className="performance_pricachange">{priceOneMonthPerformance ? priceOneMonthPerformance : 0}%</p>
-                    <p className="p_interval">1M</p>
-                </div>
-                <div className={`performance_card three-month ${priceThreeMonthPerformance>0 ? " plus" : " minus"}`}>
-                    <p className="performance_pricachange">{priceThreeMonthPerformance ? priceThreeMonthPerformance : 0}%</p>
-                    <p className="p_interval">3M</p>
-                </div>
-                <div className={`performance_card six-month  ${priceHalfYearPerformance>0 ? " plus" : " minus"}`}>
-                    <p className="performance_pricachange">{priceHalfYearPerformance ? priceHalfYearPerformance : 0}%</p>
-                    <p className="p_interval">6M</p>
-                </div>
-                <div className={`performance_card ytd ${priceYTDPerformance>0 ? " plus" : " minus"}`}>
-                    <p className="performance_pricachange">{priceYTDPerformance ? priceYTDPerformance : 0}%</p>
-                    <p className="p_interval">YTD</p>
-                </div>
-                <div className={`performance_card one-year ${priceYearPerformance>0 ? " plus" : " minus"}`}>
-                    <p className="performance_pricachange">{priceYearPerformance ? priceYearPerformance : 0}%</p>
-                    <p className="p_interval">1Y</p>
-                </div>
-            </div>
+            {/*<p className="performance_title">Performance</p>*/}
+            {/*<div className="performance">*/}
+            {/*    <div className={`performance_card one-week ${priceOneWeekPerformance>0 ? " plus" : " minus"}`}>*/}
+            {/*        <p className="performance_pricachange">{priceOneWeekPerformance ? priceOneWeekPerformance : 0}%</p>*/}
+            {/*        <p className="p_interval">1W</p>*/}
+            {/*    </div>*/}
+            {/*    <div className={`performance_card one-month ${priceOneMonthPerformance>0 ? " plus" : " minus"}`}>*/}
+            {/*        <p className="performance_pricachange">{priceOneMonthPerformance ? priceOneMonthPerformance : 0}%</p>*/}
+            {/*        <p className="p_interval">1M</p>*/}
+            {/*    </div>*/}
+            {/*    <div className={`performance_card three-month ${priceThreeMonthPerformance>0 ? " plus" : " minus"}`}>*/}
+            {/*        <p className="performance_pricachange">{priceThreeMonthPerformance ? priceThreeMonthPerformance : 0}%</p>*/}
+            {/*        <p className="p_interval">3M</p>*/}
+            {/*    </div>*/}
+            {/*    <div className={`performance_card six-month  ${priceHalfYearPerformance>0 ? " plus" : " minus"}`}>*/}
+            {/*        <p className="performance_pricachange">{priceHalfYearPerformance ? priceHalfYearPerformance : 0}%</p>*/}
+            {/*        <p className="p_interval">6M</p>*/}
+            {/*    </div>*/}
+            {/*    <div className={`performance_card ytd ${priceYTDPerformance>0 ? " plus" : " minus"}`}>*/}
+            {/*        <p className="performance_pricachange">{priceYTDPerformance ? priceYTDPerformance : 0}%</p>*/}
+            {/*        <p className="p_interval">YTD</p>*/}
+            {/*    </div>*/}
+            {/*    <div className={`performance_card one-year ${priceYearPerformance>0 ? " plus" : " minus"}`}>*/}
+            {/*        <p className="performance_pricachange">{priceYearPerformance ? priceYearPerformance : 0}%</p>*/}
+            {/*        <p className="p_interval">1Y</p>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
         </div>
     );
 }

@@ -1,0 +1,114 @@
+.gdp_col{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 500px;
+}
+.gdp_list_elem{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /*margin-bottom: 20px;*/
+    border-right: 50px;
+    padding: 10px;
+}
+.stock_list_elem{display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /*margin-bottom: 20px;*/
+    border-right: 50px;
+    padding: 10px;}
+.page-header{
+    margin-top: 45px;
+    margin-bottom: 45px;
+}
+.usd_ticker{
+    font-weight: 400;
+    font-size: 14px;
+}
+.title_section{
+    text-align: start;
+    margin-bottom: 25px;
+}
+.title_home_page{
+    text-align: start;
+
+}
+.img_gdp_list_elem{
+    width: 36px;
+    height: 36px;
+
+
+}
+.img_gdp_list_elem>img{
+    width: 100%;
+    border-radius: 18px;
+}
+.country_name{
+    font-weight: 600;
+    line-height: 24px;
+    font-size: 18px;
+    margin-bottom: 3px;
+}
+.number{
+    font-weight: 600;
+    line-height: 24px;
+    font-size: 16px;
+}
+.info_gdp_list_elem{
+    margin-left: 15px;
+    text-align: start;
+}
+.gdp_list_elem:hover{
+    background-color: #f0f3fa;
+    border-radius: 50px;
+}
+.symbol,.market_cap{
+    color: #6a6d78;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 400;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+}
+.market_cap_number{
+    font-weight: 600;
+    line-height: 24px;
+    font-size: 17px;
+    color: #131722;
+}
+.filters_list{
+    margin-bottom: 15px;
+}
+.company_list{
+    text-decoration: none;
+    color: #000;
+}
+.company_list:hover{
+    background-color: #f0f3fa;
+    border-radius: 50px;
+    text-decoration: none;
+    color: #000;
+    
+}
+
+.ticker_name_main{
+    margin: 5px 0 0 0;
+}
+.ticker_name_span{
+    padding: 5px 7px;
+    border-radius: 12px;
+    font-weight: 600;
+    line-height: 24px;
+    font-size: 16px;
+    background-color: #f0f3fa;
+}
+/*.company_list:hover ~ .ticker_name_span{*/
+/*    background-color: #2962ff;*/
+/*    color: #fff;*/
+/*}*/
+.ticker_name_span:hover{
+    background-color: #2962ff;
+    color: #fff;
+}
+

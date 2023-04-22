@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStocksRequest;
 use App\Http\Requests\UpdateStocksRequest;
 use App\Models\Stocks;
+use Illuminate\Support\Facades\DB;
 
 class StocksController extends Controller
 {
@@ -50,7 +51,14 @@ class StocksController extends Controller
        $stocks = Stocks::get();
        return $stocks;
     }
-
+    public function showcap(Stocks $stocks)
+    {
+        $stocks = DB::table('Stocks')
+            ->orderBy('market_cap','desc')
+            ->limit(10)
+            ->get();
+        return $stocks;
+    }
     /**
      * Show the form for editing the specified resource.
      *

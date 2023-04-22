@@ -72,7 +72,7 @@ function MainChartStock(props) {
         const fetchData = async () => {
             const { data } = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/hi/history/${props.name}/${intervalParam}`,{
                 headers: {
-                    'X-RapidAPI-Key': 'a942a5b67cmshc18c7032bf748c5p10d81ajsn760c27013e41',
+                    'X-RapidAPI-Key': '2ec4802eadmsh150ba6db791b984p1420a0jsn3ce76c9e86c1',
                     'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
                          }
             });
@@ -102,7 +102,7 @@ function MainChartStock(props) {
             });
             setIsLoading(false);
         }
-        // fetchData();
+        fetchData();
     },[paramDistance,intervalParam])
     return(
         <div className="main_chart">

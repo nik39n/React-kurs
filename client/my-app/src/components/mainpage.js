@@ -23,7 +23,6 @@ function MainPage () {
 
  const handleInputChange = (e) => {
      setSearchInputData(e.target.value);
-     console.log(searchInputData);
  }
 
  const childToParent = (childData) => {
