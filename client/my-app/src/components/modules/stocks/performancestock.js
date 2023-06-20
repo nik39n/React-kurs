@@ -34,13 +34,13 @@ function PerformanceStock(props){
         const fetchData = async () => {
             const { data } = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/hi/history/${props.name}/1d`,{
                 headers: {
-                    'X-RapidAPI-Key': '2ec4802eadmsh150ba6db791b984p1420a0jsn3ce76c9e86c1',
+                    'X-RapidAPI-Key': '30c2da4a55msh871baf4c2d8a78dp16021cjsn9e4fdc286002',
                     'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
                 }
             });
             let apiStockTicker = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/qu/quote/${props.name}/financial-data`,{
                 headers: {
-                    'X-RapidAPI-Key': '2ec4802eadmsh150ba6db791b984p1420a0jsn3ce76c9e86c1',
+                    'X-RapidAPI-Key': '30c2da4a55msh871baf4c2d8a78dp16021cjsn9e4fdc286002',
                     'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
                 }
             });
@@ -54,7 +54,7 @@ function PerformanceStock(props){
             let dateYearLess = new Date(entries[0][(entries[0].length)-2][0]*1000);
             dateYearLess.setFullYear(dateYearLess.getFullYear()-1);
 
-            let dateThreeMonthLess = new Date(entries[0][(entries[0].length)-2][0]*1000);
+            let dateThreeMonthLess = new Date(((entries[0][(entries[0].length)-2][0])-3600)*1000); // тут була проблема з годиною різниці
             dateThreeMonthLess.setMonth(dateThreeMonthLess.getMonth()-3);
 
             let dateWeekLess = new Date(entries[0][(entries[0].length)-2][0]*1000);
@@ -70,25 +70,30 @@ function PerformanceStock(props){
                 let res = [];
                 if (date.getDay()>0 && date.getDay()<6){
                     dateLessUTC = date.getTime();
+                    console.log(dateLessUTC,date);
                 } else {
                     date.setDate(date.getDate()+2);
                     dateLessUTC = date.getTime();
+                    console.log(dateLessUTC,2);
+
                 }
-                entries[0].forEach((currentElement)=>{
+                data.forEach((currentElement)=>{
                     if (currentElement[0] == dateLessUTC/1000){   // loop with generation necessary count of data point RETURN ARRAY with data
                         res=currentElement;
                     }
                 });
+                console.log(res);
+
                 return res;
             }
             let changeOneWeek = dayCheck(dateWeekLess,entries[0])[1].close;
             let changeToday = entries[0][(entries[0].length)-1][1].close;
             let changeYear = dayCheck(dateYearLess,entries[0])[1].close;
             let changeHalfYear = dayCheck(dateHalfYearLess,entries[0])[1].close;
+
             let changeThreeMonth = dayCheck(dateThreeMonthLess,entries[0])[1].close;
             let changeYTD = dayCheck(dateYTDLess,entries[0])[1].close;
             let changeOneMonth = dayCheck(dateMonthLess,entries[0])[1].close;
-
             let oneWeekPerformance = Math.floor((changeToday - changeOneWeek) * 100 / changeOneWeek * 100) / 100;
             let oneMonthPerformance = Math.floor((changeToday - changeOneMonth) * 100 / changeOneMonth * 100) / 100;
             let threeMonthPerformance = Math.floor((changeToday - changeThreeMonth) * 100 / changeThreeMonth * 100) / 100;

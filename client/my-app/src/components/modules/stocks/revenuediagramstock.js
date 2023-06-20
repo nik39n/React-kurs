@@ -15,13 +15,13 @@ function RevenueDiagramStock(props){
         const fetchData = async () => {
             let dataNetIncome = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/qu/quote/${props.name}/cashflow-statement`,{
                 headers:{
-                    'X-RapidAPI-Key': '2ec4802eadmsh150ba6db791b984p1420a0jsn3ce76c9e86c1',
+                    'X-RapidAPI-Key': '30c2da4a55msh871baf4c2d8a78dp16021cjsn9e4fdc286002',
                     'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
                 }
             });
             let dataRevenue = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/qu/quote/${props.name}/earnings`,{
                 headers: {
-                    'X-RapidAPI-Key': '2ec4802eadmsh150ba6db791b984p1420a0jsn3ce76c9e86c1',
+                    'X-RapidAPI-Key': '30c2da4a55msh871baf4c2d8a78dp16021cjsn9e4fdc286002',
                     'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
                 }
             });
@@ -30,8 +30,6 @@ function RevenueDiagramStock(props){
             const revenue = dataRevenue.data.earnings.financialsChart.yearly.map((item)=>item.revenue.raw);
             const netIncome = dataNetIncome.data.cashflowStatementHistory.cashflowStatements.map((item)=>item.netIncome.raw)
             // console.log(revenue);
-
-
 
             setDiagramData({
                 labels,
@@ -52,8 +50,6 @@ function RevenueDiagramStock(props){
         }
         fetchData();
     },[])
-
-
 
     return(
         <div className="main-revenue">

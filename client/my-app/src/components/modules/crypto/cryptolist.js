@@ -294,14 +294,14 @@ function CryptoList({childToParent,parentToChildInput,parentToChildFilterName,pa
         <Row className='list_crypto_items'>
             {isLoading ? <h1 className="loading-header">Loading...</h1>:
                 dbres.map(element => <Row className="list_item d-flex align-items-center" key={element.name} >
-                    <Col xl={3} lg={3} md={4} sm={6} xs={7} >
+                    <Col xl={5} lg={3} md={4} sm={6} xs={7} >
                         <Link className='icon_title col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2' to={"/ticker-details/"+element.name.trim()}>
                             <img src={element.img} alt=""/>
                             <div key={element.full_name} className="ticker_name"> {element.full_name} </div>
                             <div key={element.name} className="list_item_link">{element.name}</div>
                         </Link>
                     </Col>
-                    <Col xl={{span: 7}} lg={{span: 7}} md={6} sm={5} xs={4}>
+                    <Col xl={{span: 5}} lg={{span: 7}} md={6} sm={5} xs={4}>
                         <Link className='main_info col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8' to={"/ticker-details/"+element.name.trim()}>
                             <Row>
                                 <Col xl={4} lg={4} md={4} sm={6} xs={6} className="ticker_stream" valueiconticker={element.name}>{element.price?`$${element.price}`:<p className="loading">Loading...</p>}</Col>

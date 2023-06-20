@@ -72,7 +72,7 @@ function MainChartStock(props) {
         const fetchData = async () => {
             const { data } = await axios.get(`https://yahoo-finance15.p.rapidapi.com/api/yahoo/hi/history/${props.name}/${intervalParam}`,{
                 headers: {
-                    'X-RapidAPI-Key': '2ec4802eadmsh150ba6db791b984p1420a0jsn3ce76c9e86c1',
+                    'X-RapidAPI-Key': '30c2da4a55msh871baf4c2d8a78dp16021cjsn9e4fdc286002',
                     'X-RapidAPI-Host': 'yahoo-finance15.p.rapidapi.com'
                          }
             });
